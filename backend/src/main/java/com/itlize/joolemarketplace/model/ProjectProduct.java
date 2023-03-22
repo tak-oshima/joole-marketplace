@@ -11,11 +11,11 @@ public class ProjectProduct {
     private Integer projectProductId;
 
     @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
     @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     public ProjectProduct() {

@@ -15,15 +15,15 @@ public class Product {
     private Integer productId;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn
+    @JoinColumn(name = "product_type_id")
     private ProductType productType;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn
+    @JoinColumn(name = "technical_detail_id")
     private TechnicalDetail technicalDetail;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn
+    @JoinColumn(name = "description_id")
     private Description description;
 
     private String productBrand;
