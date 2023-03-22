@@ -11,8 +11,8 @@ public class Description {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int descriptionId;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id")
+    @OneToOne
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     private String manufacturer;
@@ -21,6 +21,7 @@ public class Description {
 
     private String model;
 
+    public Description(){}
     public Description(int descriptionId) {
         this.descriptionId = descriptionId;
     }

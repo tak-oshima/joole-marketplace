@@ -1,6 +1,7 @@
 package com.itlize.joolemarketplace.model;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.*;
 import org.springframework.data.annotation.Id;
 @Entity
@@ -12,8 +13,8 @@ public class ProductType {
     private int productTypeId;
 
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id")
+    @OneToOne
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
 
@@ -29,8 +30,9 @@ public class ProductType {
     private String accessories;
 
 
-    private Date modelYear;
+    private LocalDate modelYear;
 
+    public ProductType(){}
     public ProductType(int productTypeId) {
         this.productTypeId = productTypeId;
     }
@@ -82,11 +84,11 @@ public class ProductType {
         this.accessories = accessories;
     }
 
-    public Date getModelYear() {
+    public LocalDate getModelYear() {
         return modelYear;
     }
 
-    public void setModelYear(Date modelYear) {
+    public void setModelYear(LocalDate modelYear) {
         this.modelYear = modelYear;
     }
 }

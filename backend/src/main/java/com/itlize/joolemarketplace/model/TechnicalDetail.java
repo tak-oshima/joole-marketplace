@@ -11,8 +11,8 @@ public class TechnicalDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int technicalDetailId;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id")
+    @OneToOne
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     private int airflow;
@@ -21,6 +21,8 @@ public class TechnicalDetail {
     private int operatingVoltage;
 
     private int fanSpeed;
+
+    public TechnicalDetail(){}
     public TechnicalDetail(int technicalDetailId) {
         this.technicalDetailId = technicalDetailId;
     }
