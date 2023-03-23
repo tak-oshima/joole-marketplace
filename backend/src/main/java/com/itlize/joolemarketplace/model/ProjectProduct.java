@@ -21,12 +21,13 @@ public class ProjectProduct {
     public ProjectProduct() {
     }
 
-    public Integer getProjectProductId() {
-        return projectProductId;
+    public ProjectProduct(Project project, Product product) {
+        this.project = project;
+        this.product = product;
     }
 
-    public void setProjectProductId(Integer projectProductId) {
-        this.projectProductId = projectProductId;
+    public Integer getProjectProductId() {
+        return projectProductId;
     }
 
     public Project getProject() {
