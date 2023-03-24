@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
-        if (userRepository.findByUserName(user.getUserName()).isPresent()) {
+        if (userRepository.findById(user.getUserName()).isPresent()) {
             throw new RuntimeException(
                     String.format("Create User Exception: user with user_name \"%s\" already exists", user.getUserName())
             );
@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> getUserByName(String userName) {
-        return userRepository.findByUserName(userName);
+        return userRepository.findById(userName);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(User user) {
-        if (!userRepository.findByUserName(user.getUserName()).isPresent()) {
+        if (!userRepository.findById(user.getUserName()).isPresent()) {
             throw new RuntimeException(
                     String.format("Update User Exception: user with user_name \"%s\" not found", user.getUserName())
             );
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(User user) {
-        if (!userRepository.findByUserName(user.getUserName()).isPresent()) {
+        if (!userRepository.findById(user.getUserName()).isPresent()) {
             throw new RuntimeException(
                     String.format("Delete User Exception: user with user_name \"%s\" not found", user.getUserName())
             );

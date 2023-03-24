@@ -15,8 +15,6 @@ import java.util.Optional;
 public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
-    @Autowired
-    private UserRepository userRepository;
 
 
     @Override
