@@ -21,12 +21,6 @@ public class Project {
     @JoinColumn(name="user_name", nullable = false)
     private User user;
 
-    @OneToMany(fetch=FetchType.LAZY,
-            mappedBy="project",
-            cascade= {CascadeType.PERSIST, CascadeType.MERGE,
-                    CascadeType.DETACH, CascadeType.REFRESH})
-    private List<ProjectProduct> projectProducts;
-
     public Project() {
     }
 
@@ -51,13 +45,6 @@ public class Project {
         this.user = user;
     }
 
-    public List<ProjectProduct> getProjectProducts() {
-        return projectProducts;
-    }
-
-    public void setProjectProducts(List<ProjectProduct> projectProducts) {
-        this.projectProducts = projectProducts;
-    }
 
     @Override
     public String toString() {
