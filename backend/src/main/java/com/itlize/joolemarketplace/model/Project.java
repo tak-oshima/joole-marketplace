@@ -1,42 +1,33 @@
 package com.itlize.joolemarketplace.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Project")
 public class Project {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="project_id")
     private Integer projectId;
 
-    @ManyToOne(cascade= {CascadeType.PERSIST, CascadeType.MERGE,
-            CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToOne
     @JoinColumn(name="user_name", nullable = false)
     private User user;
 
-    @OneToMany(fetch=FetchType.LAZY,
-            mappedBy="project",
-            cascade= {CascadeType.PERSIST, CascadeType.MERGE,
-                    CascadeType.DETACH, CascadeType.REFRESH})
+    @OneToMany(mappedBy="project", cascade= CascadeType.ALL, fetch=FetchType.LAZY)
     private List<ProjectProduct> projectProducts;
 
     public Project() {
+        this.projectProducts = new ArrayList<>();
     }
 
-    public Project(Integer projectId, User user) {
-        this.projectId = projectId;
+    public Project(User user) {
         this.user = user;
+        this.projectProducts = new ArrayList<>();
     }
 
     public Integer getProjectId() {
         return projectId;
-    }
-
-    public void setProjectId(Integer projectId) {
-        this.projectId = projectId;
     }
 
     public User getUser() {
@@ -62,6 +53,4 @@ public class Project {
                 ", userName='" + user + '\'' +
                 '}';
     }
-
-    // TODO: Implement toJson() method here
 }

@@ -10,7 +10,6 @@ public interface TechnicalDetailService {
     Optional<TechnicalDetail> getTechnicalDetailById(Integer TechnicalDetailId);
     Optional<TechnicalDetail> getTechnicalDetailByProduct(Product product);
     List<TechnicalDetail> getAllTechnicalDetails();
-
     TechnicalDetail updateTechnicalDetail(TechnicalDetail technicalDetail);
-    void deleteTechnicalDetail(TechnicalDetail technicalDetail);
+    void deleteTechnicalDetail(Integer technicalDetailId);
 }

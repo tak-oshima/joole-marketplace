@@ -10,7 +10,6 @@ public interface ProductTypeService {
     Optional<ProductType> getProductTypeById(Integer productTypeId);
     Optional<ProductType> getProductTypeByProduct(Product product);
     List<ProductType> getAllProductTypes();
-
     ProductType updateProductType(ProductType productType);
-    void deleteProductType(ProductType productType);
+    void deleteProductType(Integer productTypeId);
 }

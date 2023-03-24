@@ -1,13 +1,12 @@
 package com.itlize.joolemarketplace.service.impl;
 
 import com.itlize.joolemarketplace.model.Project;
+import com.itlize.joolemarketplace.model.User;
 import com.itlize.joolemarketplace.repository.ProjectRepository;
-import com.itlize.joolemarketplace.repository.UserRepository;
 import com.itlize.joolemarketplace.service.ProjectService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,14 +15,8 @@ public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
-
     @Override
     public Project createProject(Project project) {
-        if (projectRepository.findById(project.getProjectId()).isPresent()) {
-            throw new RuntimeException(
-                    String.format("Create Project Exception: project with project_id \"%d\" already exists", project.getProjectId())
-            );
-        }
         return projectRepository.save(project);
     }
 
@@ -33,8 +26,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<Project> getProjectByUserName(String userName) {
-        return projectRepository.findAllByUserName(userName);
+    public List<Project> getProjectsByUser(User user) {
+        return projectRepository.findAllByUser(user);
     }
 
     @Override
@@ -53,12 +46,12 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void deleteProject(Project project) {
-        if (!projectRepository.findById(project.getProjectId()).isPresent()) {
+    public void deleteProject(Integer projectId) {
+        if (!projectRepository.findById(projectId).isPresent()) {
             throw new RuntimeException(
-                    String.format("Delete Project Exception: project with project_id \"%d\" not found", project.getProjectId())
+                    String.format("Delete Project Exception: project with project_id \"%d\" not found", projectId)
             );
         }
-        projectRepository.deleteById(project.getProjectId());
+        projectRepository.deleteById(projectId);
     }
 }

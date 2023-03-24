@@ -9,7 +9,6 @@ import java.util.Objects;
 
 @Entity
 public class Product {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer productId;
@@ -31,11 +30,11 @@ public class Product {
     private String certification;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<ProjectProduct> projects;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ProjectProduct> projectProducts;
 
     public Product() {
-        projects = new ArrayList<>();
+        projectProducts = new ArrayList<>();
     }
 
     public Integer getProductId() {
@@ -82,12 +81,12 @@ public class Product {
         this.certification = certification;
     }
 
-    public List<ProjectProduct> getProjects() {
-        return projects;
+    public List<ProjectProduct> getProjectProducts() {
+        return projectProducts;
     }
 
-    public void setProjects(List<ProjectProduct> projects) {
-        this.projects = projects;
+    public void setProjectProducts(List<ProjectProduct> projectProducts) {
+        this.projectProducts = projectProducts;
     }
 
     @Override
@@ -119,6 +118,4 @@ public class Product {
                 ", certification='" + certification + '\'' +
                 '}';
     }
-
-    // TODO: Implement toJson() method here
 }

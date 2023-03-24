@@ -5,7 +5,6 @@ import java.util.Objects;
 
 @Entity
 public class ProjectProduct {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer projectProductId;
@@ -69,6 +68,4 @@ public class ProjectProduct {
                 ", product=" + product +
                 '}';
     }
-
-    // TODO: Implement toJson() method here
 }

@@ -2,30 +2,23 @@ package com.itlize.joolemarketplace.model;
 
 
 import javax.persistence.*;
-import java.util.*;
-import org.springframework.data.annotation.Id;
 
 @Entity
 public class TechnicalDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int technicalDetailId;
+    private Integer technicalDetailId;
 
     @OneToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-    private int airflow;
+    private Integer airflow;
 
-    private int power;
-    private int operatingVoltage;
+    private Integer power;
+    private Integer operatingVoltage;
 
-    private int fanSpeed;
-
-    public TechnicalDetail(){}
-    public TechnicalDetail(int technicalDetailId) {
-        this.technicalDetailId = technicalDetailId;
-    }
+    private Integer fanSpeed;
 
     public Integer getTechnicalDetailId() {
         return technicalDetailId;
@@ -43,35 +36,35 @@ public class TechnicalDetail {
         this.product = product;
     }
 
-    public int getAirflow() {
+    public Integer getAirflow() {
         return airflow;
     }
 
-    public void setAirflow(int airflow) {
+    public void setAirflow(Integer airflow) {
         this.airflow = airflow;
     }
 
-    public int getPower() {
+    public Integer getPower() {
         return power;
     }
 
-    public void setPower(int power) {
+    public void setPower(Integer power) {
         this.power = power;
     }
 
-    public int getOperatingVoltage() {
+    public Integer getOperatingVoltage() {
         return operatingVoltage;
     }
 
-    public void setOperatingVoltage(int operatingVoltage) {
+    public void setOperatingVoltage(Integer operatingVoltage) {
         this.operatingVoltage = operatingVoltage;
     }
 
-    public int getFanSpeed() {
+    public Integer getFanSpeed() {
         return fanSpeed;
     }
 
-    public void setFanSpeed(int fanSpeed) {
+    public void setFanSpeed(Integer fanSpeed) {
         this.fanSpeed = fanSpeed;
     }
 }

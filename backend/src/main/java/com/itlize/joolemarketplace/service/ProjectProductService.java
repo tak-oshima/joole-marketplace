@@ -14,5 +14,5 @@ public interface ProjectProductService {
     List<ProjectProduct> getProjectProductsByProject(Project project);
     List<ProjectProduct> getProjectProductsByProduct(Product product);
     ProjectProduct updateProjectProduct(ProjectProduct projectProduct);
-    void deleteProjectProduct(ProjectProduct projectProduct);
+    void deleteProjectProduct(Integer projectProductId);
 }

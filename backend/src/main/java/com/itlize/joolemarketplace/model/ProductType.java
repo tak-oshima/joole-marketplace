@@ -2,46 +2,29 @@ package com.itlize.joolemarketplace.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.*;
-import org.springframework.data.annotation.Id;
+
 @Entity
 public class ProductType {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int productTypeId;
-
+    private Integer productTypeId;
 
     @OneToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-
     private String application;
-
 
     private String type;
 
-
     private String mountingLocation;
-
 
     private String accessories;
 
-
     private LocalDate modelYear;
 
-    public ProductType(){}
-    public ProductType(int productTypeId) {
-        this.productTypeId = productTypeId;
-    }
-    public int getProductTypeId() {
+    public Integer getProductTypeId() {
         return productTypeId;
-    }
-
-    public void setProductTypeId(int productTypeId) {
-        this.productTypeId = productTypeId;
     }
 
     public Product getProduct() {

@@ -4,33 +4,29 @@ import javax.persistence.*;
 import java.util.*;
 
 @Entity
-@Table(name = "User")
 public class User {
-
     @Id
-    @Column(name = "user_name")
+    @Column(nullable = false)
     private String userName;
 
-    @Column(name = "user_type")
+    @Column(nullable = false)
     private String userType;
 
-    @Column(name = "user_password")
+    @Column(nullable = false)
     private String userPassword;
 
-    @OneToMany(fetch=FetchType.LAZY,
-            mappedBy="user",
-            cascade= {CascadeType.PERSIST, CascadeType.MERGE,
-                    CascadeType.DETACH, CascadeType.REFRESH})
+    @OneToMany(mappedBy="user", cascade= CascadeType.ALL, fetch=FetchType.EAGER)
     private List<Project> projects;
 
     public User() {
+        this.projects = new ArrayList<>();
     }
 
-    public User(String userName, String userType, String userPassword, List<Project> projects) {
+    public User(String userName, String userType, String userPassword) {
         this.userName = userName;
         this.userType = userType;
         this.userPassword = userPassword;
-        this.projects = projects;
+        this.projects = new ArrayList<>();
     }
 
     public String getUserName() {
@@ -88,20 +84,4 @@ public class User {
                 ", userPassword=" + userPassword + '\'' +
                 '}';
     }
-
-
-    // add convenience methods for bi-directional relationship
-
-    public void add(Project tempProject) {
-
-        if (projects == null) {
-            projects = new ArrayList<>();
-        }
-
-        projects.add(tempProject);
-
-        tempProject.setUser(this);
-    }
-
-    // TODO: Implement toJson() method here
 }

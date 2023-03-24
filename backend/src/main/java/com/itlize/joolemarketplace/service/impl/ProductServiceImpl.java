@@ -6,9 +6,9 @@ import com.itlize.joolemarketplace.model.ProductType;
 import com.itlize.joolemarketplace.model.TechnicalDetail;
 import com.itlize.joolemarketplace.repository.ProductRepository;
 import com.itlize.joolemarketplace.service.ProductService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -19,11 +19,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product createProduct(Product product) {
-        if (productRepository.findById(product.getProductId()).isPresent()) {
-            throw new RuntimeException(
-                    String.format("Create Product Exception: product with product_id \"%d\" already exists", product.getProductId())
-            );
-        }
         return productRepository.save(product);
     }
 
@@ -68,13 +63,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProduct(Product product) {
-        if (!productRepository.findById(product.getProductId()).isPresent()) {
+    public void deleteProduct(Integer productId) {
+        if (!productRepository.findById(productId).isPresent()) {
             throw new RuntimeException(
-                    String.format("Delete Product Exception: product with product_id \"%d\" not found", product.getProductId())
+                    String.format("Delete Product Exception: product with product_id \"%d\" not found", productId)
             );
         }
-        productRepository.deleteById(product.getProductId());
+        productRepository.deleteById(productId);
     }
 }
-

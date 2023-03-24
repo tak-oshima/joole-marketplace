@@ -10,7 +10,6 @@ public interface DescriptionService {
     Optional<Description> getDescriptionById(Integer descriptionId);
     Optional<Description> getDescriptionByProduct(Product product);
     List<Description> getAllDescriptions();
-
     Description updateDescription(Description description);
-    void deleteDescription(Description description);
+    void deleteDescription(Integer descriptionId);
 }

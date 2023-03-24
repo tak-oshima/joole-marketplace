@@ -7,9 +7,9 @@ import java.util.Optional;
 
 public interface UserService {
     User createUser(User user);
-    Optional<User> getUserByName(String userName);
-    List<User> getAllUserByUserType(String userType);
+    Optional<User> getUserByUserName(String userName);
+    List<User> getUsersByUserType(String userType);
     List<User> getAllUsers();
     User updateUser(User user);
-    void deleteUser(User user);
+    void deleteUser(String userName);
 }
