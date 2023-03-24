@@ -3,9 +3,9 @@ package com.itlize.joolemarketplace.service.impl;
 import com.itlize.joolemarketplace.model.User;
 import com.itlize.joolemarketplace.repository.UserRepository;
 import com.itlize.joolemarketplace.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -17,21 +17,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
-        if (userRepository.findById(user.getUserName()).isPresent()) {
-            throw new RuntimeException(
-                    String.format("Create User Exception: user with user_name \"%s\" already exists", user.getUserName())
-            );
-        }
         return userRepository.save(user);
     }
 
     @Override
-    public Optional<User> getUserByName(String userName) {
+    public Optional<User> getUserByUserName(String userName) {
         return userRepository.findById(userName);
     }
 
     @Override
-    public List<User> getAllUserByUserType(String userType) {
+    public List<User> getUsersByUserType(String userType) {
         return userRepository.findAllByUserType(userType);
     }
 
@@ -51,15 +46,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(User user) {
-        if (!userRepository.findById(user.getUserName()).isPresent()) {
+    public void deleteUser(String userName) {
+        if (!userRepository.findById(userName).isPresent()) {
             throw new RuntimeException(
-                    String.format("Delete User Exception: user with user_name \"%s\" not found", user.getUserName())
+                    String.format("Delete User Exception: user with user_name \"%s\" not found", userName)
             );
         }
-        userRepository.delete(user);
+        userRepository.deleteById(userName);
     }
 }
-
-
-

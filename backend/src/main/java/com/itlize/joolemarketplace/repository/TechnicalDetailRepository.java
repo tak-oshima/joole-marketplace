@@ -2,10 +2,10 @@ package com.itlize.joolemarketplace.repository;
 
 import com.itlize.joolemarketplace.model.TechnicalDetail;
 import com.itlize.joolemarketplace.model.Product;
-import java.util.List;
+
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TechnicalDetailRepository extends JpaRepository<TechnicalDetail, Integer> {
-
-    List<TechnicalDetail> findByProduct(Product product);
+    Optional<TechnicalDetail> findByProduct(Product product);
 }

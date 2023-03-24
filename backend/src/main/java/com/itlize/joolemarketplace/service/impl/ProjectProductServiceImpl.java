@@ -5,22 +5,20 @@ import com.itlize.joolemarketplace.model.Project;
 import com.itlize.joolemarketplace.model.ProjectProduct;
 import com.itlize.joolemarketplace.repository.ProjectProductRepository;
 import com.itlize.joolemarketplace.service.ProjectProductService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ProjectProductServiceImpl implements ProjectProductService {
     @Autowired
     private ProjectProductRepository projectProductRepository;
 
     @Override
     public ProjectProduct createProjectProduct(ProjectProduct projectProduct) {
-        if (projectProductRepository.findById(projectProduct.getProjectProductId()).isPresent()) {
-            throw new RuntimeException(
-                    String.format("Create ProjectProduct Exception: project_product with project_product_id \"%d\" already exists", projectProduct.getProjectProductId())
-            );
-        }
         return projectProductRepository.save(projectProduct);
     }
 
@@ -55,12 +53,12 @@ public class ProjectProductServiceImpl implements ProjectProductService {
     }
 
     @Override
-    public void deleteProjectProduct(ProjectProduct projectProduct) {
-        if (!projectProductRepository.findById(projectProduct.getProjectProductId()).isPresent()) {
+    public void deleteProjectProduct(Integer projectProductId) {
+        if (!projectProductRepository.findById(projectProductId).isPresent()) {
             throw new RuntimeException(
-                    String.format("Create ProjectProduct Exception: project_product with project_product_id \"%d\" already exists", projectProduct.getProjectProductId())
+                    String.format("Create ProjectProduct Exception: project_product with project_product_id \"%d\" already exists", projectProductId)
             );
         }
-        projectProductRepository.delete(projectProduct);
+        projectProductRepository.deleteById(projectProductId);
     }
 }

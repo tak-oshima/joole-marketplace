@@ -2,14 +2,11 @@ package com.itlize.joolemarketplace.model;
 
 import javax.persistence.*;
 
-import org.springframework.data.annotation.Id;
-
 @Entity
 public class Description {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int descriptionId;
+    private Integer descriptionId;
 
     @OneToOne
     @JoinColumn(name = "product_id", nullable = false)
@@ -21,17 +18,8 @@ public class Description {
 
     private String model;
 
-    public Description(){}
-    public Description(int descriptionId) {
-        this.descriptionId = descriptionId;
-    }
-
-    public int getDescriptionId() {
+    public Integer getDescriptionId() {
         return descriptionId;
-    }
-
-    public void setDescriptionId(int descriptionId) {
-        this.descriptionId = descriptionId;
     }
 
     public Product getProduct() {
