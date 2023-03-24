@@ -1,4 +1,4 @@
-package com.itlize.joolemarketplace.Repository;
+package com.itlize.joolemarketplace.repository;
 
 import com.itlize.joolemarketplace.model.ProductType;
 import com.itlize.joolemarketplace.model.Product;
