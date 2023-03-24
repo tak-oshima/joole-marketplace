@@ -42,10 +42,6 @@ public class Product {
         return productId;
     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
-    }
-
     public ProductType getProductType() {
         return productType;
     }
