@@ -27,7 +27,7 @@ public class UserController {
         }
         catch (RuntimeException e) {
             Map<String, String> responseBody = new HashMap<>();
-            responseBody.put("error", "Conflict occurred while creating the user");
+            responseBody.put("error", "Username already exists");
             responseBody.put("details", e.getMessage());
             return new ResponseEntity<>(responseBody, HttpStatus.CONFLICT);
         }
@@ -41,8 +41,8 @@ public class UserController {
         }
         else {
             Map<String, String> responseBody = new HashMap<>();
-            responseBody.put("error", "Resource not found");
-            responseBody.put("details", String.format("User with user_name \"%s\" does not exist", userName));
+            responseBody.put("error", "User not found");
+            responseBody.put("details", String.format("User with user_name \"%s\" could not be found", userName));
             return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
         }
     }
@@ -67,7 +67,7 @@ public class UserController {
         }
         catch (RuntimeException e) {
             Map<String, String> responseBody = new HashMap<>();
-            responseBody.put("error", "Resource not found");
+            responseBody.put("error", "User not found");
             responseBody.put("details", e.getMessage());
             return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
         }
@@ -81,7 +81,7 @@ public class UserController {
         }
         catch (RuntimeException e){
             Map<String, String> responseBody = new HashMap<>();
-            responseBody.put("error", "Resource not found");
+            responseBody.put("error", "User not found");
             responseBody.put("details", e.getMessage());
             return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
         }

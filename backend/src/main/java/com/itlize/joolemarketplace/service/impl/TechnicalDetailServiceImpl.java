@@ -1,5 +1,6 @@
 package com.itlize.joolemarketplace.service.impl;
 
+import com.itlize.joolemarketplace.exception.TechnicalDetailNotFoundException;
 import com.itlize.joolemarketplace.model.TechnicalDetail;
 import com.itlize.joolemarketplace.model.Product;
 import com.itlize.joolemarketplace.repository.TechnicalDetailRepository;
@@ -38,9 +39,7 @@ public class TechnicalDetailServiceImpl implements TechnicalDetailService {
     @Override
     public TechnicalDetail updateTechnicalDetail(TechnicalDetail technicalDetail) {
         if (!technicalDetailRepository.findById(technicalDetail.getTechnicalDetailId()).isPresent()) {
-            throw new RuntimeException(
-                    String.format("Update TechnicalDetail Exception: technicalDetail with technicalDetail_id \"%d\" not found", technicalDetail.getTechnicalDetailId())
-            );
+            throw new TechnicalDetailNotFoundException(technicalDetail.getTechnicalDetailId());
         }
         return technicalDetailRepository.save(technicalDetail);
     }
@@ -48,9 +47,7 @@ public class TechnicalDetailServiceImpl implements TechnicalDetailService {
     @Override
     public void deleteTechnicalDetail(Integer technicalDetailId) {
         if (!technicalDetailRepository.findById(technicalDetailId).isPresent()) {
-            throw new RuntimeException(
-                    String.format("Delete TechnicalDetail Exception: technicalDetail with technicalDetail_id \"%d\" not found", technicalDetailId)
-            );
+            throw new TechnicalDetailNotFoundException(technicalDetailId);
         }
         technicalDetailRepository.deleteById(technicalDetailId);
     }

@@ -1,5 +1,6 @@
 package com.itlize.joolemarketplace.service.impl;
 
+import com.itlize.joolemarketplace.exception.ProjectNotFoundException;
 import com.itlize.joolemarketplace.model.Project;
 import com.itlize.joolemarketplace.model.User;
 import com.itlize.joolemarketplace.repository.ProjectRepository;
@@ -38,9 +39,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project updateProject(Project project) {
         if (!projectRepository.findById(project.getProjectId()).isPresent()) {
-            throw new RuntimeException(
-                    String.format("Update Project Exception: project with project_id \"%d\" not found", project.getProjectId())
-            );
+            throw new ProjectNotFoundException(project.getProjectId());
         }
         return projectRepository.save(project);
     }
@@ -48,9 +47,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void deleteProject(Integer projectId) {
         if (!projectRepository.findById(projectId).isPresent()) {
-            throw new RuntimeException(
-                    String.format("Delete Project Exception: project with project_id \"%d\" not found", projectId)
-            );
+            throw new ProjectNotFoundException(projectId);
         }
         projectRepository.deleteById(projectId);
     }
