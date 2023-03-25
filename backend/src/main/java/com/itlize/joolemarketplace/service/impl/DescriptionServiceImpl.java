@@ -1,5 +1,6 @@
 package com.itlize.joolemarketplace.service.impl;
 
+import com.itlize.joolemarketplace.exception.DescriptionNotFoundException;
 import com.itlize.joolemarketplace.model.Description;
 import com.itlize.joolemarketplace.model.Product;
 import com.itlize.joolemarketplace.repository.DescriptionRepository;
@@ -38,9 +39,7 @@ public class DescriptionServiceImpl implements DescriptionService {
     @Override
     public Description updateDescription(Description description) {
         if (!descriptionRepository.findById(description.getDescriptionId()).isPresent()) {
-            throw new RuntimeException(
-                    String.format("Update Description Exception: description with description_id \"%d\" not found", description.getDescriptionId())
-            );
+            throw new DescriptionNotFoundException(description.getDescriptionId());
         }
         return descriptionRepository.save(description);
     }
@@ -48,9 +47,7 @@ public class DescriptionServiceImpl implements DescriptionService {
     @Override
     public void deleteDescription(Integer descriptionId) {
         if (!descriptionRepository.findById(descriptionId).isPresent()) {
-            throw new RuntimeException(
-                    String.format("Delete Description Exception: description with description_id \"%d\" not found", descriptionId)
-            );
+            throw new DescriptionNotFoundException(descriptionId);
         }
         descriptionRepository.deleteById(descriptionId);
     }

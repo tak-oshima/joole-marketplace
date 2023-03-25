@@ -1,5 +1,6 @@
 package com.itlize.joolemarketplace.service.impl;
 
+import com.itlize.joolemarketplace.exception.ProductNotFoundException;
 import com.itlize.joolemarketplace.model.Description;
 import com.itlize.joolemarketplace.model.Product;
 import com.itlize.joolemarketplace.model.ProductType;
@@ -55,9 +56,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product updateProduct(Product product) {
         if (!productRepository.findById(product.getProductId()).isPresent()) {
-            throw new RuntimeException(
-                    String.format("Update Product Exception: product with product_id \"%d\" not found", product.getProductId())
-            );
+            throw new ProductNotFoundException(product.getProductId());
         }
         return productRepository.save(product);
     }
@@ -65,9 +64,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProduct(Integer productId) {
         if (!productRepository.findById(productId).isPresent()) {
-            throw new RuntimeException(
-                    String.format("Delete Product Exception: product with product_id \"%d\" not found", productId)
-            );
+            throw new ProductNotFoundException(productId);
         }
         productRepository.deleteById(productId);
     }

@@ -1,5 +1,7 @@
 package com.itlize.joolemarketplace.service.impl;
 
+import com.itlize.joolemarketplace.exception.ProjectNotFoundException;
+import com.itlize.joolemarketplace.exception.ProjectProductNotFoundException;
 import com.itlize.joolemarketplace.model.Product;
 import com.itlize.joolemarketplace.model.Project;
 import com.itlize.joolemarketplace.model.ProjectProduct;
@@ -45,9 +47,7 @@ public class ProjectProductServiceImpl implements ProjectProductService {
     @Override
     public ProjectProduct updateProjectProduct(ProjectProduct projectProduct) {
         if (!projectProductRepository.findById(projectProduct.getProjectProductId()).isPresent()) {
-            throw new RuntimeException(
-                    String.format("Create ProjectProduct Exception: project_product with project_product_id \"%d\" already exists", projectProduct.getProjectProductId())
-            );
+            throw new ProjectProductNotFoundException(projectProduct.getProjectProductId());
         }
         return projectProductRepository.save(projectProduct);
     }
@@ -55,9 +55,7 @@ public class ProjectProductServiceImpl implements ProjectProductService {
     @Override
     public void deleteProjectProduct(Integer projectProductId) {
         if (!projectProductRepository.findById(projectProductId).isPresent()) {
-            throw new RuntimeException(
-                    String.format("Create ProjectProduct Exception: project_product with project_product_id \"%d\" already exists", projectProductId)
-            );
+            throw new ProjectProductNotFoundException(projectProductId);
         }
         projectProductRepository.deleteById(projectProductId);
     }
