@@ -1,5 +1,7 @@
 package com.itlize.joolemarketplace.service.impl;
 
+import com.itlize.joolemarketplace.exception.UserAlreadyExistsException;
+import com.itlize.joolemarketplace.exception.UserNotFoundException;
 import com.itlize.joolemarketplace.model.User;
 import com.itlize.joolemarketplace.repository.UserRepository;
 import com.itlize.joolemarketplace.service.UserService;
@@ -17,6 +19,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
+        if (userRepository.findById(user.getUserName()).isPresent()) {
+            throw new UserAlreadyExistsException(user.getUserName());
+        }
         return userRepository.save(user);
     }
 
@@ -38,9 +43,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUser(User user) {
         if (!userRepository.findById(user.getUserName()).isPresent()) {
-            throw new RuntimeException(
-                    String.format("Update User Exception: user with user_name \"%s\" not found", user.getUserName())
-            );
+            throw new UserNotFoundException(user.getUserName());
         }
         return userRepository.save(user);
     }
@@ -48,9 +51,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(String userName) {
         if (!userRepository.findById(userName).isPresent()) {
-            throw new RuntimeException(
-                    String.format("Delete User Exception: user with user_name \"%s\" not found", userName)
-            );
+            throw new UserNotFoundException(userName);
         }
         userRepository.deleteById(userName);
     }
