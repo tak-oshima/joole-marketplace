@@ -133,8 +133,8 @@ class ProductServiceImplTest {
         product2.setProductBrand("foo");
         product2.setCertification("baz");
         Product product3 = new Product();
-        product2.setProductBrand("qux");
-        product2.setCertification("quux");
+        product3.setProductBrand("qux");
+        product3.setCertification("quux");
 
         when(productRepository.findAllByProductBrand("foo")).thenReturn(Arrays.asList(product1, product2));
         List<Product> foundProducts = productService.getProductsByBrand("foo");
