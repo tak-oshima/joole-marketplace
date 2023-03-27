@@ -36,11 +36,11 @@ public class TechnicalDetail {
         this.product = product;
     }
 
-    public Integer getAirflow() {
+    public Integer getAirFlow() {
         return airflow;
     }
 
-    public void setAirflow(Integer airflow) {
+    public void setAirFlow(Integer airflow) {
         this.airflow = airflow;
     }
 
