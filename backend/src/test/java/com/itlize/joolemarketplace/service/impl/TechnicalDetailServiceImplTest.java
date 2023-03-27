@@ -32,7 +32,7 @@ class TechnicalDetailServiceImplTest {
     @Test
     void createTechnicalDetail() {
         TechnicalDetail technicalDetail = new TechnicalDetail();
-        technicalDetail.setAirFlow(100);
+        technicalDetail.setAirflow(100);
         technicalDetail.setPower(50);
         technicalDetail.setOperatingVoltage(10);
         technicalDetail.setFanSpeed(40);
@@ -47,7 +47,7 @@ class TechnicalDetailServiceImplTest {
     @Test
     void getTechnicalDetailById() {
         TechnicalDetail technicalDetail = new TechnicalDetail();
-        technicalDetail.setAirFlow(100);
+        technicalDetail.setAirflow(100);
         technicalDetail.setPower(50);
         technicalDetail.setOperatingVoltage(10);
         technicalDetail.setFanSpeed(40);
@@ -63,7 +63,7 @@ class TechnicalDetailServiceImplTest {
     @Test
     void getTechnicalDetailByProduct() {
         TechnicalDetail technicalDetail = new TechnicalDetail();
-        technicalDetail.setAirFlow(100);
+        technicalDetail.setAirflow(100);
         technicalDetail.setPower(50);
         technicalDetail.setOperatingVoltage(10);
         technicalDetail.setFanSpeed(40);
@@ -85,12 +85,12 @@ class TechnicalDetailServiceImplTest {
     @Test
     void getAllTechnicalDetail() {
         TechnicalDetail technicalDetail1 = new TechnicalDetail();
-        technicalDetail1.setAirFlow(100);
+        technicalDetail1.setAirflow(100);
         technicalDetail1.setPower(50);
         technicalDetail1.setOperatingVoltage(10);
         technicalDetail1.setFanSpeed(40);
         TechnicalDetail technicalDetail2 = new TechnicalDetail();
-        technicalDetail2.setAirFlow(200);
+        technicalDetail2.setAirflow(200);
         technicalDetail2.setPower(100);
         technicalDetail2.setOperatingVoltage(20);
         technicalDetail2.setFanSpeed(10);
@@ -105,7 +105,7 @@ class TechnicalDetailServiceImplTest {
     @Test
     void updateTechnicalDetail() {
         TechnicalDetail technicalDetail = new TechnicalDetail();
-        technicalDetail.setAirFlow(100);
+        technicalDetail.setAirflow(100);
         technicalDetail.setPower(50);
         technicalDetail.setOperatingVoltage(10);
         technicalDetail.setFanSpeed(40);
@@ -122,7 +122,7 @@ class TechnicalDetailServiceImplTest {
     @Test
     void updateTechnicalDetailThatDoesNotExist() {
         TechnicalDetail technicalDetail = new TechnicalDetail();
-        technicalDetail.setAirFlow(100);
+        technicalDetail.setAirflow(100);
         technicalDetail.setPower(50);
         technicalDetail.setOperatingVoltage(10);
         technicalDetail.setFanSpeed(40);
@@ -138,7 +138,7 @@ class TechnicalDetailServiceImplTest {
     @Test
     void deleteTechnicalDetail() {
         TechnicalDetail technicalDetail = new TechnicalDetail();
-        technicalDetail.setAirFlow(100);
+        technicalDetail.setAirflow(100);
         technicalDetail.setPower(50);
         technicalDetail.setOperatingVoltage(10);
         technicalDetail.setFanSpeed(40);
@@ -153,7 +153,7 @@ class TechnicalDetailServiceImplTest {
     @Test
     void deleteTechnicalDetailThatDoesNotExist() {
         TechnicalDetail technicalDetail = new TechnicalDetail();
-        technicalDetail.setAirFlow(100);
+        technicalDetail.setAirflow(100);
         technicalDetail.setPower(50);
         technicalDetail.setOperatingVoltage(10);
         technicalDetail.setFanSpeed(40);
