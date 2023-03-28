@@ -1,5 +1,7 @@
 package com.itlize.joolemarketplace.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -9,7 +11,8 @@ public class ProductType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer productTypeId;
 
-    @OneToOne
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 

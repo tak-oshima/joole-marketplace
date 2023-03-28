@@ -5,7 +5,10 @@ import com.itlize.joolemarketplace.model.Description;
 import com.itlize.joolemarketplace.model.Product;
 import com.itlize.joolemarketplace.model.ProductType;
 import com.itlize.joolemarketplace.model.TechnicalDetail;
+import com.itlize.joolemarketplace.repository.DescriptionRepository;
 import com.itlize.joolemarketplace.repository.ProductRepository;
+import com.itlize.joolemarketplace.repository.ProductTypeRepository;
+import com.itlize.joolemarketplace.repository.TechnicalDetailRepository;
 import com.itlize.joolemarketplace.service.ProductService;
 
 import org.junit.jupiter.api.Test;
@@ -29,6 +32,15 @@ class ProductServiceImplTest {
 
     @MockBean
     private ProductRepository productRepository;
+
+    @MockBean
+    private ProductTypeRepository productTypeRepository;
+
+    @MockBean
+    private TechnicalDetailRepository technicalDetailRepository;
+
+    @MockBean
+    private DescriptionRepository descriptionRepository;
 
     @Test
     void createProduct() {
