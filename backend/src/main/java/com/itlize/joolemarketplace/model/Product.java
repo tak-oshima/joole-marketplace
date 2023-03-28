@@ -17,7 +17,7 @@ public class Product {
     @JoinColumn(name = "product_type_id")
     private ProductType productType;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "technical_detail_id")
     private TechnicalDetail technicalDetail;
 

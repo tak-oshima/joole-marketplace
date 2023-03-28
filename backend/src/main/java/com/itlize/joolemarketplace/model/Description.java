@@ -1,5 +1,7 @@
 package com.itlize.joolemarketplace.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,7 +10,8 @@ public class Description {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer descriptionId;
 
-    @OneToOne
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 

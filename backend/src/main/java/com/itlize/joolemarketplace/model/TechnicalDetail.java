@@ -1,6 +1,8 @@
 package com.itlize.joolemarketplace.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,23 +11,21 @@ public class TechnicalDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer technicalDetailId;
 
-    @OneToOne
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     private Integer airflow;
 
     private Integer power;
+
     private Integer operatingVoltage;
 
     private Integer fanSpeed;
 
     public Integer getTechnicalDetailId() {
         return technicalDetailId;
-    }
-
-    public void setTechnicalDetailId(Integer technicalDetailId) {
-        this.technicalDetailId = technicalDetailId;
     }
 
     public Product getProduct() {
