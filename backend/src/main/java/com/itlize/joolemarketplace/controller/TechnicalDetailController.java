@@ -19,7 +19,7 @@ public class TechnicalDetailController {
     @Autowired
     TechnicalDetailService technicalDetailService;
 
-    @PostMapping
+    /*@PostMapping
     publi ResponseEntity<?> createTechnicalDetail(@RequestBody TechnicalDetail technicalDetail) {
         try{
             TechnicalDetail createdtechnitalDetail
@@ -27,5 +27,5 @@ public class TechnicalDetailController {
         catch (RuntimeException e) {
 
         }
-    }
+    }**/
 }

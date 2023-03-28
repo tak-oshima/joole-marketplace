@@ -1,8 +1,12 @@
 package com.itlize.joolemarketplace.service.impl;
 
 import com.itlize.joolemarketplace.exception.ProjectNotFoundException;
+import com.itlize.joolemarketplace.model.Product;
 import com.itlize.joolemarketplace.model.Project;
+import com.itlize.joolemarketplace.model.ProjectProduct;
 import com.itlize.joolemarketplace.model.User;
+import com.itlize.joolemarketplace.repository.ProductRepository;
+import com.itlize.joolemarketplace.repository.ProjectProductRepository;
 import com.itlize.joolemarketplace.repository.ProjectRepository;
 import com.itlize.joolemarketplace.service.ProjectService;
 
@@ -15,6 +19,9 @@ import java.util.Optional;
 public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
+
+    @Autowired
+    private ProjectProductRepository projectProductRepository;
 
     @Override
     public Project createProject(Project project) {
@@ -34,6 +41,16 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<Project> getAllProjects() {
         return projectRepository.findAll();
+    }
+
+    @Override
+    public void addProjectProducts(List<ProjectProduct> projectProducts) {
+        projectProductRepository.saveAll(projectProducts);
+    }
+
+    @Override
+    public void removeProjectProducts(List<Integer> projectProductIds) {
+        projectProductRepository.deleteAllByIdInBatch(projectProductIds);
     }
 
     @Override

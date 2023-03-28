@@ -23,9 +23,10 @@ public class DescriptionController {
     ProductService productService;
 
     @PostMapping
-    public ResponseEntity<?> createDescription(@RequestBody Description description) {
+    public ResponseEntity<?> createDescriptionByProductId(@RequestBody Integer productId) {
         try {
-            Description createdDescription = descriptionService.createDescription(description);
+            Optional<Product> product = productService.getProductById(productId);
+            Description createdDescription = descriptionService.createDescription(product.get().getDescription());
             return new ResponseEntity<>(createdDescription, HttpStatus.CREATED);
         }
         catch (RuntimeException e) {
@@ -37,8 +38,9 @@ public class DescriptionController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getDescriptionByProduct(@RequestParam(value = "product", required = false) Product product) {
-        Optional<Description> foundDescription = descriptionService.getDescriptionByProduct(product);
+    public ResponseEntity<?> getDescriptionByProductId(@RequestParam(value = "productId", required = false) Integer productId) {
+        Optional<Product> product = productService.getProductById(productId);
+        Optional<Description> foundDescription = descriptionService.getDescriptionByProduct(product.get());
         if (foundDescription.isPresent()) {
             return new ResponseEntity<>(foundDescription.get(), HttpStatus.OK);
         }
@@ -50,16 +52,11 @@ public class DescriptionController {
         }
     }
 
-    /*@GetMapping
-    public ResponseEntity<?> getAllDescriptions() {
-        List<Description> descriptions = descriptionService.getAllDescriptions();
-        return new ResponseEntity<>(descriptions, HttpStatus.OK);
-    }**/
-
     @PutMapping
-    public ResponseEntity<?> updateDescription(@RequestBody Description description) {
+    public ResponseEntity<?> updateDescriptionByProductId(@RequestBody Integer productId) {
         try {
-            Description updatedDescription = descriptionService.updateDescription(description);
+            Optional<Product> product = productService.getProductById(productId);
+            Description updatedDescription = descriptionService.updateDescription(product.get().getDescription());
             return new ResponseEntity<>(updatedDescription, HttpStatus.OK);
         }
         catch (RuntimeException e) {
@@ -71,7 +68,7 @@ public class DescriptionController {
     }
 
     @DeleteMapping("/{productId}")
-    public ResponseEntity<?> deleteDescriptionBy(@PathVariable Integer productId) {
+    public ResponseEntity<?> deleteDescriptionByProductId(@PathVariable Integer productId) {
         try {
             Optional<Product> product = productService.getProductById(productId);
             descriptionService.deleteDescription(product.get().getDescription().getDescriptionId());

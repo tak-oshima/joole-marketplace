@@ -1,9 +1,13 @@
 package com.itlize.joolemarketplace.controller;
 
+import com.itlize.joolemarketplace.model.Product;
 import com.itlize.joolemarketplace.model.Project;
+import com.itlize.joolemarketplace.model.ProjectProduct;
 import com.itlize.joolemarketplace.model.User;
+import com.itlize.joolemarketplace.service.ProductService;
 import com.itlize.joolemarketplace.service.ProjectService;
 
+import com.itlize.joolemarketplace.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +24,13 @@ public class ProjectController {
     @Autowired
     ProjectService projectService;
 
-    @PostMapping
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    ProductService productService;
+
+    @PostMapping("/create")
     public ResponseEntity<?> createProject(@RequestBody Project project) {
         try {
             Project createdProject = projectService.createProject(project);
@@ -49,15 +59,46 @@ public class ProjectController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getProjectsByUserOrAll(@RequestParam(value = "user", required = false) User user) {
+    public ResponseEntity<?> getProjectsByUserNameOrAll(@RequestParam(value = "userName", required = false) String userName) {
+        Optional<User> foundUser = userService.getUserByUserName(userName);
         List<Project> projects;
-        if (user != null) {
-            projects = projectService.getProjectsByUser(user);
+        if (foundUser != null) {
+            projects = projectService.getProjectsByUser(foundUser.get());
         }
         else {
             projects = projectService.getAllProjects();
         }
         return new ResponseEntity<>(projects, HttpStatus.OK);
+    }
+
+    @PostMapping("/addProducts")
+    public ResponseEntity<?> addProducts(@RequestBody List<Product> products) {
+        try {
+            for (Product product: products) {
+                projectService.addProjectProducts(product.getProjectProducts());
+            }
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch (RuntimeException e) {
+            Map<String, String> responseBody = new HashMap<>();
+            responseBody.put("error", "Products already exists");
+            responseBody.put("details", e.getMessage());
+            return new ResponseEntity<>(responseBody, HttpStatus.CONFLICT);
+        }
+    }
+
+    @DeleteMapping("/removeProducts")
+    public ResponseEntity<?> removeProductsByProductId(@PathVariable List<Integer> productIds) {
+        try {
+            projectService.removeProjectProducts(productIds);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        catch (RuntimeException e){
+            Map<String, String> responseBody = new HashMap<>();
+            responseBody.put("error", "Products not found");
+            responseBody.put("details", e.getMessage());
+            return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping
