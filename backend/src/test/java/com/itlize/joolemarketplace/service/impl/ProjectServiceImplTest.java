@@ -33,7 +33,7 @@ public class ProjectServiceImplTest {
     void createProject() {
         Project project = new Project();
         User user = new User();
-        user.setUserName("jmart0");
+        user.setUsername("jmart0");
         project.setUser(user);
 
         when(projectRepository.save(project)).thenReturn(project);
@@ -47,7 +47,7 @@ public class ProjectServiceImplTest {
     void getProjectById() {
         Project project = new Project();
         User user = new User();
-        user.setUserName("jmart0");
+        user.setUsername("jmart0");
         project.setUser(user);
 
         when(projectRepository.findById((Integer) any())).thenReturn(Optional.of(project));
@@ -62,13 +62,13 @@ public class ProjectServiceImplTest {
     void getProjectsByUser() {
         Project project1 = new Project();
         User user1 = new User();
-        user1.setUserName("jmart0");
+        user1.setUsername("jmart0");
         project1.setUser(user1);
         Project project2 = new Project();
         project2.setUser(user1);
         Project project3 = new Project();
         User user2 = new User();
-        user2.setUserName("dgavan1");
+        user2.setUsername("dgavan1");
         project3.setUser(user2);
 
         when(projectRepository.findAllByUser(user1)).thenReturn(Arrays.asList(project1, project2));
@@ -82,11 +82,11 @@ public class ProjectServiceImplTest {
     void getAllProjects() {
         Project project1 = new Project();
         User user1 = new User();
-        user1.setUserName("jmart0");
+        user1.setUsername("jmart0");
         project1.setUser(user1);
         Project project2 = new Project();
         User user2 = new User();
-        user2.setUserName("dgavan1");
+        user2.setUsername("dgavan1");
         project2.setUser(user2);
 
         when(projectRepository.findAll()).thenReturn(Arrays.asList(project1, project2));
@@ -100,7 +100,7 @@ public class ProjectServiceImplTest {
     void updateProject() {
         Project project = new Project();
         User user = new User();
-        user.setUserName("jmart0");
+        user.setUsername("jmart0");
         project.setUser(user);
 
         when(projectRepository.findById((Integer) any())).thenReturn(Optional.of(project));
@@ -116,7 +116,7 @@ public class ProjectServiceImplTest {
     void updateProjectThatDoesNotExist() {
         Project project = new Project();
         User user = new User();
-        user.setUserName("jmart0");
+        user.setUsername("jmart0");
         project.setUser(user);
 
         when(projectRepository.findById((Integer) any())).thenReturn(Optional.empty());
@@ -130,7 +130,7 @@ public class ProjectServiceImplTest {
     void deleteProject() {
         Project project = new Project();
         User user = new User();
-        user.setUserName("jmart0");
+        user.setUsername("jmart0");
         project.setUser(user);
 
         when(projectRepository.findById((Integer) any())).thenReturn(Optional.of(project));
@@ -144,7 +144,7 @@ public class ProjectServiceImplTest {
     void deleteProjectThatDoesNotExist() {
         Project project = new Project();
         User user = new User();
-        user.setUserName("jmart0");
+        user.setUsername("jmart0");
         project.setUser(user);
 
         when(projectRepository.findById((Integer) any())).thenReturn(Optional.empty());

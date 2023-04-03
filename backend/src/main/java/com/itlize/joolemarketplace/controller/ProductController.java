@@ -1,10 +1,10 @@
 package com.itlize.joolemarketplace.controller;
 
-import com.itlize.joolemarketplace.dto.ProductSearchCriteriaDto;
+import com.itlize.joolemarketplace.dto.ProductSearchCriteria;
 import com.itlize.joolemarketplace.model.*;
 import com.itlize.joolemarketplace.service.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,24 +17,14 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductController {
-    @Autowired
-    ProductService productService;
-
-    @Autowired
-    ProjectService projectService;
-
-    @Autowired
-    ProjectProductService projectProductService;
-
-    @Autowired
-    ProductTypeService productTypeService;
-
-    @Autowired
-    TechnicalDetailService technicalDetailService;
-
-    @Autowired
-    DescriptionService descriptionService;
+    private final ProductService productService;
+    private final ProjectService projectService;
+    private final ProjectProductService projectProductService;
+    private final ProductTypeService productTypeService;
+    private final TechnicalDetailService technicalDetailService;
+    private final DescriptionService descriptionService;
 
     @PostMapping
     public ResponseEntity<?> createProduct(@RequestBody Product product) {
@@ -137,8 +127,8 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> getProductsBySearchCriteria(@RequestBody ProductSearchCriteriaDto productSearchCriteriaDto) {
-        List<Product> foundProducts = productService.getProductsBySearchCriteria(productSearchCriteriaDto);
+    public ResponseEntity<?> getProductsBySearchCriteria(@RequestBody ProductSearchCriteria productSearchCriteria) {
+        List<Product> foundProducts = productService.getProductsBySearchCriteria(productSearchCriteria);
         return new ResponseEntity<>(foundProducts, HttpStatus.OK);
     }
 

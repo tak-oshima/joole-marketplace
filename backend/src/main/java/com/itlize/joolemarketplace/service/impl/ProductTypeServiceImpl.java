@@ -6,15 +6,15 @@ import com.itlize.joolemarketplace.model.Product;
 import com.itlize.joolemarketplace.repository.ProductTypeRepository;
 import com.itlize.joolemarketplace.service.ProductTypeService;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProductTypeServiceImpl implements ProductTypeService {
-    @Autowired
-    private ProductTypeRepository productTypeRepository;
+    private final ProductTypeRepository productTypeRepository;
 
     @Override
     public ProductType createProductType(ProductType productType) {

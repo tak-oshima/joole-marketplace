@@ -1,87 +1,62 @@
 package com.itlize.joolemarketplace.model;
 
-import javax.persistence.*;
+import com.itlize.joolemarketplace.model.enums.Role;
+import jakarta.persistence.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.util.*;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-public class User {
+public class User implements UserDetails {
     @Id
     @Column(nullable = false)
-    private String userName;
+    private String username;
 
     @Column(nullable = false)
     private String userType;
 
     @Column(nullable = false)
-    private String userPassword;
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @OneToMany(mappedBy="user", cascade= CascadeType.ALL, fetch=FetchType.EAGER)
-    private List<Project> projects;
+    private List<Project> projects = new ArrayList<>();
 
-    public User() {
-        this.projects = new ArrayList<>();
-    }
-
-    public User(String userName, String userType, String userPassword) {
-        this.userName = userName;
-        this.userType = userType;
-        this.userPassword = userPassword;
-        this.projects = new ArrayList<>();
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
-    }
-
-    public String getUserPassword() {
-        return userPassword;
-    }
-
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
-    }
-
-    public List<Project> getProjects() {
-        return projects;
-    }
-
-    public void setProjects(List<Project> projects) {
-        this.projects = projects;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(userName, user.userName) &&
-                Objects.equals(userType, user.userType) &&
-                Objects.equals(userPassword, user.userPassword);
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(userName, userType,userPassword);
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
     @Override
-    public String toString() {
-        return "User{" +
-                "userName='" + userName + '\'' +
-                ", userType='" + userType + '\'' +
-                ", userPassword=" + userPassword + '\'' +
-                '}';
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

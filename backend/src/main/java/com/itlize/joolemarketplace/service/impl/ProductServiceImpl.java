@@ -1,8 +1,6 @@
 package com.itlize.joolemarketplace.service.impl;
 
-import com.itlize.joolemarketplace.dto.ProductSearchCriteriaDto;
-import com.itlize.joolemarketplace.dto.ProductTypeSearchCriteriaDto;
-import com.itlize.joolemarketplace.dto.TechnicalDetailSearchCriteriaDto;
+import com.itlize.joolemarketplace.dto.ProductSearchCriteria;
 import com.itlize.joolemarketplace.exception.ProductNotFoundException;
 import com.itlize.joolemarketplace.model.Description;
 import com.itlize.joolemarketplace.model.Product;
@@ -16,7 +14,7 @@ import com.itlize.joolemarketplace.repository.specs.ProductTypeSpecs;
 import com.itlize.joolemarketplace.repository.specs.TechnicalDetailSpecs;
 import com.itlize.joolemarketplace.service.ProductService;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -27,18 +25,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private ProductTypeRepository productTypeRepository;
-
-    @Autowired
-    private TechnicalDetailRepository technicalDetailRepository;
-
-    @Autowired
-    private DescriptionRepository descriptionRepository;
+    private final ProductRepository productRepository;
+    private final ProductTypeRepository productTypeRepository;
+    private final TechnicalDetailRepository technicalDetailRepository;
+    private final DescriptionRepository descriptionRepository;
 
     @Override
     public Product createProduct(Product product) {
@@ -76,24 +68,24 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getProductsBySearchCriteria(ProductSearchCriteriaDto productSearchCriteriaDto) {
-        Specification<ProductType> productTypeSpec = ProductTypeSpecs.matchesSearchCriteria(productSearchCriteriaDto.getProductTypeSearchDto());
-        Set<Product> foundProductsByType = (productSearchCriteriaDto.getProductTypeSearchDto() == null)
+    public List<Product> getProductsBySearchCriteria(ProductSearchCriteria productSearchCriteria) {
+        Specification<ProductType> productTypeSpec = ProductTypeSpecs.matchesSearchCriteria(productSearchCriteria.getProductTypeSearchCriteria());
+        Set<Product> foundProductsByType = (productSearchCriteria.getProductTypeSearchCriteria() == null)
                 ? new HashSet<>(productRepository.findAll())
                 : productTypeRepository.findAll(productTypeSpec)
                         .stream()
                         .map(ProductType::getProduct)
                         .collect(Collectors.toSet());
 
-        Specification<TechnicalDetail> technicalDetailSpec = TechnicalDetailSpecs.matchesSearchCriteria(productSearchCriteriaDto.getTechnicalDetailSearchCriteriaDto());
-        Set<Product> foundProductsByTechnicalDetail = (productSearchCriteriaDto.getTechnicalDetailSearchCriteriaDto() == null)
+        Specification<TechnicalDetail> technicalDetailSpec = TechnicalDetailSpecs.matchesSearchCriteria(productSearchCriteria.getTechnicalDetailSearchCriteria());
+        Set<Product> foundProductsByTechnicalDetail = (productSearchCriteria.getTechnicalDetailSearchCriteria() == null)
                 ? new HashSet<>(productRepository.findAll())
                 : technicalDetailRepository.findAll(technicalDetailSpec)
                 .stream()
                 .map(TechnicalDetail::getProduct)
                 .collect(Collectors.toSet());
 
-        Set<Product> foundProductsByBrand = new HashSet<>(productRepository.findAllByProductBrand(productSearchCriteriaDto.getProductBrand()));
+        Set<Product> foundProductsByBrand = new HashSet<>(productRepository.findAllByProductBrand(productSearchCriteria.getProductBrand()));
 
         return foundProductsByType.stream()
                 .filter(foundProductsByTechnicalDetail::contains)

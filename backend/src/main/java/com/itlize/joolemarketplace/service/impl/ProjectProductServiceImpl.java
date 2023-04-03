@@ -1,6 +1,5 @@
 package com.itlize.joolemarketplace.service.impl;
 
-import com.itlize.joolemarketplace.exception.ProjectNotFoundException;
 import com.itlize.joolemarketplace.exception.ProjectProductNotFoundException;
 import com.itlize.joolemarketplace.model.Product;
 import com.itlize.joolemarketplace.model.Project;
@@ -8,16 +7,16 @@ import com.itlize.joolemarketplace.model.ProjectProduct;
 import com.itlize.joolemarketplace.repository.ProjectProductRepository;
 import com.itlize.joolemarketplace.service.ProjectProductService;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProjectProductServiceImpl implements ProjectProductService {
-    @Autowired
-    private ProjectProductRepository projectProductRepository;
+    private final ProjectProductRepository projectProductRepository;
 
     @Override
     public ProjectProduct createProjectProduct(ProjectProduct projectProduct) {

@@ -1,28 +1,65 @@
 package com.itlize.joolemarketplace.service.impl;
 
+import com.itlize.joolemarketplace.dto.AuthenticationRequest;
+import com.itlize.joolemarketplace.dto.AuthenticationResponse;
+import com.itlize.joolemarketplace.dto.RegisterRequest;
 import com.itlize.joolemarketplace.exception.UserAlreadyExistsException;
 import com.itlize.joolemarketplace.exception.UserNotFoundException;
 import com.itlize.joolemarketplace.model.User;
+import com.itlize.joolemarketplace.model.enums.Role;
 import com.itlize.joolemarketplace.repository.UserRepository;
 import com.itlize.joolemarketplace.service.UserService;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.itlize.joolemarketplace.util.JwtUtil;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final JwtUtil jwtUtil;
+    private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public User createUser(User user) {
-        if (userRepository.findById(user.getUserName()).isPresent()) {
-            throw new UserAlreadyExistsException(user.getUserName());
+    public AuthenticationResponse registerUser(RegisterRequest request) {
+        if (userRepository.findById(request.getUsername()).isPresent()) {
+            throw new UserAlreadyExistsException(request.getUsername());
         }
-        return userRepository.save(user);
+        User user = User.builder()
+                .username(request.getUsername())
+                .userType(request.getUserType())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(Role.USER)
+                .build();
+        UserDetails userDetails = userRepository.save(user);
+
+        return AuthenticationResponse.builder()
+                .token(jwtUtil.generateToken(userDetails))
+                .build();
+    }
+
+    @Override
+    public AuthenticationResponse authenticateUser(AuthenticationRequest request) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getUsername(),
+                        request.getPassword()
+                )
+        );
+        UserDetails userDetails = userRepository.findById(request.getUsername()).get();
+
+        return AuthenticationResponse.builder()
+                .token(jwtUtil.generateToken(userDetails))
+                .build();
     }
 
     @Override
@@ -42,8 +79,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(User user) {
-        if (!userRepository.findById(user.getUserName()).isPresent()) {
-            throw new UserNotFoundException(user.getUserName());
+        if (!userRepository.findById(user.getUsername()).isPresent()) {
+            throw new UserNotFoundException(user.getUsername());
         }
         return userRepository.save(user);
     }

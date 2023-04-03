@@ -6,15 +6,15 @@ import com.itlize.joolemarketplace.model.User;
 import com.itlize.joolemarketplace.repository.ProjectRepository;
 import com.itlize.joolemarketplace.service.ProjectService;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProjectServiceImpl implements ProjectService {
-    @Autowired
-    private ProjectRepository projectRepository;
+    private final ProjectRepository projectRepository;
 
     @Override
     public Project createProject(Project project) {

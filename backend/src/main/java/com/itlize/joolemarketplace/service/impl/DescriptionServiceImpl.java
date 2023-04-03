@@ -6,15 +6,15 @@ import com.itlize.joolemarketplace.model.Product;
 import com.itlize.joolemarketplace.repository.DescriptionRepository;
 import com.itlize.joolemarketplace.service.DescriptionService;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class DescriptionServiceImpl implements DescriptionService {
-    @Autowired
-    private DescriptionRepository descriptionRepository;
+    private final DescriptionRepository descriptionRepository;
 
     @Override
     public Description createDescription(Description description) {

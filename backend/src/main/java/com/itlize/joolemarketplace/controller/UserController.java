@@ -1,9 +1,12 @@
 package com.itlize.joolemarketplace.controller;
 
+import com.itlize.joolemarketplace.dto.AuthenticationRequest;
+import com.itlize.joolemarketplace.dto.AuthenticationResponse;
+import com.itlize.joolemarketplace.dto.RegisterRequest;
 import com.itlize.joolemarketplace.model.User;
 import com.itlize.joolemarketplace.service.UserService;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,21 +18,35 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
+@RequiredArgsConstructor
 public class UserController {
-    @Autowired
-    UserService userService;
+    private final UserService userService;
 
-    @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody User user) {
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
         try {
-            User createdUser = userService.createUser(user);
-            return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+            AuthenticationResponse response = userService.registerUser(request);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
         }
         catch (RuntimeException e) {
             Map<String, String> responseBody = new HashMap<>();
             responseBody.put("error", "Username already exists");
             responseBody.put("details", e.getMessage());
             return new ResponseEntity<>(responseBody, HttpStatus.CONFLICT);
+        }
+    }
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequest request) {
+        try {
+            AuthenticationResponse response = userService.authenticateUser(request);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        }
+        catch (RuntimeException e) {
+            Map<String, String> responseBody = new HashMap<>();
+            responseBody.put("error", "Authentication failed");
+            responseBody.put("details", e.getMessage());
+            return new ResponseEntity<>(responseBody, HttpStatus.BAD_REQUEST);
         }
     }
 

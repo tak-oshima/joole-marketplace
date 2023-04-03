@@ -33,7 +33,7 @@ class ProjectProductServiceImplTest {
 
     @Test
     void createProjectProduct() {
-        User user = new User("user", "customer", "password");
+        User user = new User();
         Project project = new Project(user);
         Product product = new Product();
         product.setProductBrand("foo");
@@ -48,7 +48,7 @@ class ProjectProductServiceImplTest {
 
     @Test
     void getProjectProductById() {
-        User user = new User("user", "customer", "password");
+        User user = new User();
         Project project = new Project(user);
         Product product = new Product();
         product.setProductBrand("foo");
@@ -64,7 +64,7 @@ class ProjectProductServiceImplTest {
 
     @Test
     void getAllProjectProducts() {
-        User user = new User("user", "customer", "password");
+        User user = new User();
         Project project1 = new Project(user);
         Product product1 = new Product();
         product1.setProductBrand("foo");
@@ -83,7 +83,7 @@ class ProjectProductServiceImplTest {
 
     @Test
     void getProjectProductsByProject() {
-        User user = new User("user", "customer", "password");
+        User user = new User();
         Project project1 = new Project(user);
         Product product1 = new Product();
         product1.setProductBrand("foo");
@@ -105,7 +105,7 @@ class ProjectProductServiceImplTest {
 
     @Test
     void getProjectProductsByProduct() {
-        User user = new User("user", "customer", "password");
+        User user = new User();
         Project project1 = new Project(user);
         Product product1 = new Product();
         product1.setProductBrand("foo");
@@ -126,7 +126,7 @@ class ProjectProductServiceImplTest {
 
     @Test
     void updateProjectProduct() {
-        User user = new User("user", "customer", "password");
+        User user = new User();
         Project project = new Project(user);
         Product product = new Product();
         product.setProductBrand("foo");
@@ -143,7 +143,7 @@ class ProjectProductServiceImplTest {
 
     @Test
     void updateProjectProductThatDoesNotExist() {
-        User user = new User("user", "customer", "password");
+        User user = new User();
         Project project = new Project(user);
         Product product = new Product();
         product.setProductBrand("foo");
@@ -158,7 +158,7 @@ class ProjectProductServiceImplTest {
 
     @Test
     void deleteProjectProduct() {
-        User user = new User("user", "customer", "password");
+        User user = new User();
         Project project = new Project(user);
         Product product = new Product();
         product.setProductBrand("foo");
@@ -173,7 +173,7 @@ class ProjectProductServiceImplTest {
 
     @Test
     void deleteProjectProductThatDoesNotExist() {
-        User user = new User("user", "customer", "password");
+        User user = new User();
         Project project = new Project(user);
         Product product = new Product();
         product.setProductBrand("foo");
