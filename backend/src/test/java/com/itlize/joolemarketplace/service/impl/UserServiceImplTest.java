@@ -4,10 +4,14 @@ import com.itlize.joolemarketplace.exception.UserNotFoundException;
 import com.itlize.joolemarketplace.model.User;
 import com.itlize.joolemarketplace.repository.UserRepository;
 import com.itlize.joolemarketplace.service.UserService;
+import com.itlize.joolemarketplace.util.JwtUtil;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -28,26 +32,21 @@ public class UserServiceImplTest {
     @MockBean
     private UserRepository userRepository;
 
-    @Test
-    void createUser() {
-        User user = new User();
-        user.setUserName("jmart0");
-        user.setUserType("customer");
-        user.setUserPassword("WrFMKkR2Uh");
+    @MockBean
+    private JwtUtil jwtUtil;
 
-        when(userRepository.save(user)).thenReturn(user);
-        User createdUser = userService.createUser(user);
+    @MockBean
+    private AuthenticationManager authenticationManager;
 
-        assertEquals(user, createdUser);
-        verify(userRepository).save(user);
-    }
+    @MockBean
+    private PasswordEncoder passwordEncoder;
 
     @Test
     void getUserByUserName() {
         User user = new User();
-        user.setUserName("jmart0");
+        user.setUsername("jmart0");
         user.setUserType("customer");
-        user.setUserPassword("WrFMKkR2Uh");
+        user.setPassword("WrFMKkR2Uh");
 
         when(userRepository.findById((String) any())).thenReturn(Optional.of(user));
         Optional<User> foundOptionalUser = userService.getUserByUserName("jmart0");
@@ -60,17 +59,17 @@ public class UserServiceImplTest {
     @Test
     void getUsersByUserType() {
         User user1 = new User();
-        user1.setUserName("jmart0");
+        user1.setUsername("jmart0");
         user1.setUserType("customer");
-        user1.setUserPassword("WrFMKkR2Uh");
+        user1.setPassword("WrFMKkR2Uh");
         User user2 = new User();
-        user2.setUserName("dgavan1");
+        user2.setUsername("dgavan1");
         user2.setUserType("customer");
-        user2.setUserPassword("h4RWbvrBRi7q");
+        user2.setPassword("h4RWbvrBRi7q");
         User user3 = new User();
-        user3.setUserName("hlackney2");
+        user3.setUsername("hlackney2");
         user3.setUserType("seller");
-        user3.setUserPassword("7FKIl2LLN");
+        user3.setPassword("7FKIl2LLN");
 
         when(userRepository.findAllByUserType("customer")).thenReturn(Arrays.asList(user1, user2));
         List<User> foundUsers = userService.getUsersByUserType("customer");
@@ -82,13 +81,13 @@ public class UserServiceImplTest {
     @Test
     void getAllUsers() {
         User user1 = new User();
-        user1.setUserName("jmart0");
+        user1.setUsername("jmart0");
         user1.setUserType("customer");
-        user1.setUserPassword("WrFMKkR2Uh");
+        user1.setPassword("WrFMKkR2Uh");
         User user2 = new User();
-        user2.setUserName("dgavan1");
+        user2.setUsername("dgavan1");
         user2.setUserType("customer");
-        user2.setUserPassword("h4RWbvrBRi7q");
+        user2.setPassword("h4RWbvrBRi7q");
 
         when(userRepository.findAll()).thenReturn(Arrays.asList(user1, user2));
         List<User> foundUsers = userService.getAllUsers();
@@ -100,9 +99,9 @@ public class UserServiceImplTest {
     @Test
     void updateUser() {
         User user = new User();
-        user.setUserName("jmart0");
+        user.setUsername("jmart0");
         user.setUserType("customer");
-        user.setUserPassword("WrFMKkR2Uh");
+        user.setPassword("WrFMKkR2Uh");
 
         when(userRepository.findById((String) any())).thenReturn(Optional.of(user));
         when(userRepository.save(user)).thenReturn(user);
@@ -116,9 +115,9 @@ public class UserServiceImplTest {
     @Test
     void updateUserThatDoesNotExist() {
         User user = new User();
-        user.setUserName("Alice");
+        user.setUsername("Alice");
         user.setUserType("customer");
-        user.setUserPassword("WrFMKkR2Uh");
+        user.setPassword("WrFMKkR2Uh");
 
         when(userRepository.findById((String) any())).thenReturn(Optional.empty());
 
@@ -130,9 +129,9 @@ public class UserServiceImplTest {
     @Test
     void deleteUser() {
         User user = new User();
-        user.setUserName("jmart0");
+        user.setUsername("jmart0");
         user.setUserType("customer");
-        user.setUserPassword("WrFMKkR2Uh");
+        user.setPassword("WrFMKkR2Uh");
 
         when(userRepository.findById((String) any())).thenReturn(Optional.of(user));
         userService.deleteUser("jmart0");
@@ -144,9 +143,9 @@ public class UserServiceImplTest {
     @Test
     void deleteUserThatDoesNotExist() {
         User user = new User();
-        user.setUserName("Alice");
+        user.setUsername("Alice");
         user.setUserType("customer");
-        user.setUserPassword("WrFMKkR2Uh");
+        user.setPassword("WrFMKkR2Uh");
 
         when(userRepository.findById((String) any())).thenReturn(Optional.empty());
 

@@ -1,13 +1,19 @@
 package com.itlize.joolemarketplace.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+import lombok.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor@Entity
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
     private Integer projectId;
 
     @ManyToOne
@@ -15,42 +21,9 @@ public class Project {
     private User user;
 
     @OneToMany(mappedBy="project", cascade= CascadeType.ALL, fetch=FetchType.LAZY)
-    private List<ProjectProduct> projectProducts;
-
-    public Project() {
-        this.projectProducts = new ArrayList<>();
-    }
+    private List<ProjectProduct> projectProducts = new ArrayList<>();
 
     public Project(User user) {
         this.user = user;
-        this.projectProducts = new ArrayList<>();
-    }
-
-    public Integer getProjectId() {
-        return projectId;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public List<ProjectProduct> getProjectProducts() {
-        return projectProducts;
-    }
-
-    public void setProjectProducts(List<ProjectProduct> projectProducts) {
-        this.projectProducts = projectProducts;
-    }
-
-    @Override
-    public String toString() {
-        return "Project{" +
-                "projectId=" + projectId +
-                ", userName='" + user + '\'' +
-                '}';
     }
 }

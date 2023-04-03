@@ -6,15 +6,15 @@ import com.itlize.joolemarketplace.model.Product;
 import com.itlize.joolemarketplace.repository.TechnicalDetailRepository;
 import com.itlize.joolemarketplace.service.TechnicalDetailService;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class TechnicalDetailServiceImpl implements TechnicalDetailService {
-    @Autowired
-    private TechnicalDetailRepository technicalDetailRepository;
+    private final TechnicalDetailRepository technicalDetailRepository;
 
     @Override
     public TechnicalDetail createTechnicalDetail(TechnicalDetail technicalDetail) {
