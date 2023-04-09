@@ -6,13 +6,13 @@ server:
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/joole_marketplace?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
-    username: takeyuki.oshima
-    password: password
+    username: root
+    password: Chelsea123456
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: create
+      #ddl-auto: create
     show-sql: true
     properties:
       hibernate:

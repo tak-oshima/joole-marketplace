@@ -1,5 +1,7 @@
 package com.itlize.joolemarketplace.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -15,7 +17,8 @@ public class User {
     @Column(nullable = false)
     private String userPassword;
 
-    @OneToMany(mappedBy="user", cascade= CascadeType.ALL, fetch=FetchType.EAGER)
+    @JsonIgnore
+    @OneToMany(mappedBy="user", cascade= CascadeType.ALL, fetch=FetchType.LAZY)
     private List<Project> projects;
 
     public User() {

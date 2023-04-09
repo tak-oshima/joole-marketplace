@@ -12,6 +12,8 @@ import com.itlize.joolemarketplace.service.ProjectService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +21,9 @@ import java.util.Optional;
 public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Autowired
     private ProjectProductRepository projectProductRepository;
@@ -44,12 +49,22 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void addProjectProducts(List<ProjectProduct> projectProducts) {
+    public void addProductsToProject(Integer projectId, List<Integer> productIds) {
+        List<ProjectProduct> projectProducts = new ArrayList<>();
+        ProjectProduct projectProduct = null;
+        Optional<Project> project = projectRepository.findById(projectId);
+        for (Integer productId: productIds) {
+            Optional<Product> product = productRepository.findById(productId);
+            projectProduct = new ProjectProduct();
+            projectProduct.setProduct(product.get());
+            projectProduct.setProject(project.get());
+            projectProducts.add(projectProduct);
+        }
         projectProductRepository.saveAll(projectProducts);
     }
 
     @Override
-    public void removeProjectProducts(List<Integer> projectProductIds) {
+    public void removeProductsFromProject(List<Integer> projectProductIds) {
         projectProductRepository.deleteAllByIdInBatch(projectProductIds);
     }
 

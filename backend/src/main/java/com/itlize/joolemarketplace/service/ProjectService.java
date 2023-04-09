@@ -10,8 +10,8 @@ public interface ProjectService {
     Optional<Project> getProjectById(Integer projectId);
     List<Project> getProjectsByUser(User user);
     List<Project> getAllProjects();
-    void addProjectProducts(List<ProjectProduct> projectProducts);
-    void removeProjectProducts(List<Integer> projectProductIds);
+    void addProductsToProject(Integer projectId, List<Integer> productIds);
+    void removeProductsFromProject(List<Integer> projectProductIds);
     Project updateProject(Project project);
     void deleteProject(Integer projectId);
 }

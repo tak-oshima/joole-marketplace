@@ -31,8 +31,10 @@ public class ProjectController {
     ProductService productService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createProject(@RequestBody Project project) {
+    public ResponseEntity<?> createProject(@RequestBody User user) {
         try {
+            Project project = new Project();
+            project.setUser(user);
             Project createdProject = projectService.createProject(project);
             return new ResponseEntity<>(createdProject, HttpStatus.CREATED);
         }
@@ -60,7 +62,10 @@ public class ProjectController {
 
     @GetMapping
     public ResponseEntity<?> getProjectsByUserNameOrAll(@RequestParam(value = "userName", required = false) String userName) {
-        Optional<User> foundUser = userService.getUserByUserName(userName);
+        Optional<User> foundUser = null;
+        if(userName != null){
+            foundUser = userService.getUserByUserName(userName);
+        }
         List<Project> projects;
         if (foundUser != null) {
             projects = projectService.getProjectsByUser(foundUser.get());
@@ -71,12 +76,12 @@ public class ProjectController {
         return new ResponseEntity<>(projects, HttpStatus.OK);
     }
 
-    @PostMapping("/addProducts")
-    public ResponseEntity<?> addProducts(@RequestBody List<Product> products) {
+    @PostMapping("/addProductsToProject")
+    public ResponseEntity<?> addProductsToProject(@RequestBody Map map) {
         try {
-            for (Product product: products) {
-                projectService.addProjectProducts(product.getProjectProducts());
-            }
+            List<Integer> productIds = (List<Integer>)map.get("productIds");
+            Integer projectId = (Integer)map.get("projectId");
+            projectService.addProductsToProject(projectId, productIds);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (RuntimeException e) {
@@ -87,10 +92,10 @@ public class ProjectController {
         }
     }
 
-    @DeleteMapping("/removeProducts")
-    public ResponseEntity<?> removeProductsByProductId(@PathVariable List<Integer> productIds) {
+    @PostMapping("/removeProductsFromProject")
+    public ResponseEntity<?> removeProductsFromProject(@RequestBody List<Integer> projectProductIds) {
         try {
-            projectService.removeProjectProducts(productIds);
+            projectService.removeProductsFromProject(projectProductIds);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         catch (RuntimeException e){
