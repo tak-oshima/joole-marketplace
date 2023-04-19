@@ -1,0 +1,254 @@
+<div class="container-fluid bg-white border-top">
+  <div class="row justify-content-center">
+    <div class="col-3 border-end">
+      <div class="row justify-content-center align-items-center">
+        <div class="col-4">
+          <h4 class="fw-6 fw-bold text-secondary m-2 pt-1">Search:</h4>
+        </div>
+        <div class="col-8 text-end">
+          <button class="btn btn-secondary btn-sm mx-1" (click)="onSaveClick()">
+            Save
+          </button>
+          <button
+            class="btn btn-secondary btn-sm mx-1"
+            (click)="onClearClick()"
+          >
+            Clear
+          </button>
+        </div>
+      </div>
+      <div class="container-fluid m-0 p-0 mb-1">
+        <div class="row bg-light justify-content-center align-items-center">
+          <div class="col text-start border border-end-0 py-2">Product Type</div>
+        </div>
+        <div class="row justify-content-center align-items-center">
+          <div class="col text-secondary fw-bold fs-6 my-2 pt-2">
+            Application:
+          </div>
+          <div class="col text-end">
+            <select
+              class="form-select"
+              [(ngModel)]="search.productTypeSearchRequest.application"
+            >
+              <option value="indoor">Indoor</option>
+              <option value="outdoor">Outdoor</option>
+            </select>
+          </div>
+        </div>
+        <div class="row justify-content-center align-items-center">
+          <div class="col text-secondary fw-bold fs-6 my-2 pt-2">Type:</div>
+          <div class="col text-end">
+            <select
+              class="form-select"
+              [(ngModel)]="search.productTypeSearchRequest.type"
+            >
+              <option value="residential">Residential</option>
+              <option value="industrial">Industrial</option>
+              <option value="commercial">Commercial</option>
+            </select>
+          </div>
+        </div>
+        <div class="row justify-content-center align-items-center">
+          <div class="col text-secondary fw-bold fs-6 my-2 pt-2">
+            Mounting Location:
+          </div>
+          <div class="col text-end">
+            <select
+              class="form-select"
+              [(ngModel)]="search.productTypeSearchRequest.mountingLocation"
+            >
+              <option value="roof">Roof</option>
+              <option value="wall">Wall</option>
+              <option value="free standing">Free Standing</option>
+            </select>
+          </div>
+        </div>
+        <div class="row justify-content-center align-items-center">
+          <div class="col text-secondary fw-bold fs-6 my-2 pt-2">
+            Accessories:
+          </div>
+          <div class="col text-end">
+            <select
+              class="form-select"
+              [(ngModel)]="search.productTypeSearchRequest.accessories"
+            >
+              <option value="with light">With Light</option>
+              <option value="without light">Without Light</option>
+            </select>
+          </div>
+        </div>
+        <div class="row justify-content-center align-items-center">
+          <div class="col-5 text-secondary fw-bold fs-6 my-2 pt-2">
+            Model Year:
+          </div>
+          <div class="col-3 text-start m-0 p-0 ps-1">
+            <input class="form-control" type="number" [(ngModel)]="minYear" />
+          </div>
+          <div class="col-1 text-center text-secondary m-0 p-0">-</div>
+          <div class="col-3 text-end m-0 p-0 pe-1">
+            <input class="form-control" type="number" [(ngModel)]="maxYear" />
+          </div>
+        </div>
+      </div>
+
+      <div class="container-fluid m-0 p-0 mb-1">
+        <div class="row bg-light justify-content-center align-items-center">
+          <div class="col text-start border border-end-0 py-2">Technical Details</div>
+        </div>
+        <div class="row justify-content-center align-items-center">
+          <div class="col text-secondary fw-bold fs-6 my-2 pt-2">
+            <i class="bi bi-arrow-down-up"></i> Airflow
+          </div>
+        </div>
+        <div class="row justify-content-center align-items-center">
+          <div class="col">
+            <app-range-slider
+              [minValue]="search.technicalDetailSearchRequest.minAirflow"
+              [maxValue]="search.technicalDetailSearchRequest.maxAirflow"
+              (minValueChange)="
+                search.technicalDetailSearchRequest.minAirflow = $event
+              "
+              (maxValueChange)="
+                search.technicalDetailSearchRequest.maxAirflow = $event
+              "
+            ></app-range-slider>
+          </div>
+        </div>
+        <div class="row justify-content-center align-items-center">
+          <div class="col text-secondary fw-bold fs-6 my-2 pt-2">
+            <i class="bi bi-arrow-down-up"></i> Power
+          </div>
+        </div>
+        <div class="row justify-content-center align-items-center">
+          <div class="col">
+            <app-range-slider
+              [minValue]="search.technicalDetailSearchRequest.minPower"
+              [maxValue]="search.technicalDetailSearchRequest.maxPower"
+              (minValueChange)="
+                search.technicalDetailSearchRequest.minPower = $event
+              "
+              (maxValueChange)="
+                search.technicalDetailSearchRequest.maxPower = $event
+              "
+            ></app-range-slider>
+          </div>
+        </div>
+        <div class="row justify-content-center align-items-center">
+          <div class="col text-secondary fw-bold fs-6 my-2 pt-2">
+            <i class="bi bi-arrow-down-up"></i> Operating Voltage
+          </div>
+        </div>
+        <div class="row justify-content-center align-items-center">
+          <div class="col">
+            <app-range-slider
+              [minValue]="
+                search.technicalDetailSearchRequest.minOperatingVoltage
+              "
+              [maxValue]="
+                search.technicalDetailSearchRequest.maxOperatingVoltage
+              "
+              (minValueChange)="
+                search.technicalDetailSearchRequest.minOperatingVoltage = $event
+              "
+              (maxValueChange)="
+                search.technicalDetailSearchRequest.maxOperatingVoltage = $event
+              "
+            ></app-range-slider>
+          </div>
+        </div>
+        <div class="row justify-content-center align-items-center">
+          <div class="col text-secondary fw-bold fs-6 my-2 pt-2">
+            <i class="bi bi-arrow-down-up"></i> Fan Speed
+          </div>
+        </div>
+        <div class="row justify-content-center align-items-center">
+          <div class="col">
+            <app-range-slider
+              [minValue]="search.technicalDetailSearchRequest.minFanSpeed"
+              [maxValue]="search.technicalDetailSearchRequest.maxFanSpeed"
+              (minValueChange)="
+                search.technicalDetailSearchRequest.minFanSpeed = $event
+              "
+              (maxValueChange)="
+                search.technicalDetailSearchRequest.maxFanSpeed = $event
+              "
+            ></app-range-slider>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-9">
+      <div class="container">
+        <div class="row justify-content-start">
+          <div class="col">
+            <h4 class="fw-6 fw-bold text-secondary m-2 pt-1">
+              <a class="text-decoration-none" routerLink="/search">Project {{ projectId }}</a> > {{ productBrand }}
+            </h4>
+          </div>
+        </div>
+        <div class="row d-flex flex-wrap align-items-stretch g-1">
+          <div
+            class="col-sm-6 col-md-4 col-lg-3 text-center"
+            *ngFor="let prod of products$ | async"
+          >
+            <div class="card h-100 rounded-0" style="width: auto">
+              <img
+                src="assets/images/product.png"
+                class="card-img-top"
+                alt="Product Picture"
+              />
+              <div class="card-body p-0">
+                <div class="justify-content-center">
+                  <h5 class="card-title text-primary fs-6 fw-bold my-0">
+                    {{ prod.productBrand }} <br />
+                    {{ prod.description.model }}
+                  </h5>
+                </div>
+                <div class="justify-content-center bg-light mx-0 p-2">
+                  <p class="card-text text-secondary lh-1">
+                    {{ prod.technicalDetail.airflow | number : "1.0" }} CFM
+                    <br />
+                    {{ prod.technicalDetail.power | number : "1.0" }} W at max
+                    speed <br />
+                    {{ prod.technicalDetail.operatingVoltage | number : "1.0" }}
+                    V <br />
+                    {{ prod.technicalDetail.fanSpeed | number : "1.0" }} RPM
+                  </p>
+                </div>
+                <div class="justify-content-center mx-0 p-2">
+                  <p class="card-text text-danger lh-1">
+                    Model year: {{ prod.productType.modelYear }} <br />
+                    Certification: {{ prod.certification }} <br />
+                    {{ prod.productType.application }},
+                    {{ prod.productType.type }},
+                    {{ prod.productType.mountingLocation }},
+                    {{ prod.productType.accessories }}
+                  </p>
+                </div>
+                <div class="container mx-0 p-2">
+                  <div class="row justify-content-center align-items-center">
+                    <div class="col-6">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="compare"
+                      />
+                      <label class="form-check-label" for="compare"
+                        >Compare</label
+                      >
+                    </div>
+                    <div class="col-6">
+                      <select class="btn btn-primary btn-sm">
+                        <option selected>Add to</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

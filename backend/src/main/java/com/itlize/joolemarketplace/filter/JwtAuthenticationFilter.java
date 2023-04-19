@@ -1,6 +1,7 @@
 package com.itlize.joolemarketplace.filter;
 
 import com.itlize.joolemarketplace.util.JwtUtil;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,7 +32,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // Request contains a JWT token
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             token = authorizationHeader.substring(7);
-            username = jwtUtil.extractUsername(token);
+            try {
+                username = jwtUtil.extractUsername(token);
+            }
+            catch (ExpiredJwtException e) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"message\": \"JWT token has expired\"}");
+                return;
+            }
         }
 
         // User is not yet authenticated for this request

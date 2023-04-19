@@ -37,4 +37,9 @@ public class Product {
     private String productBrand;
 
     private String certification;
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(productId);
+    }
 }

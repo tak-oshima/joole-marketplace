@@ -1,0 +1,53 @@
+<div class="container position-relative" style="max-width: 700px;">
+  <div class="row justify-content-center">
+    <div class="col-10">
+      <div class="input-group">
+        <select
+          class="input-group-text"
+          [(ngModel)]="selectedProjectId"
+          (change)="onProjectChange()"
+        >
+          <option
+            *ngFor="let projectId of projectIds$ | async"
+            [value]="projectId"
+          >
+            Project {{ projectId }}
+          </option>
+        </select>
+        <input
+          [(ngModel)]="productBrandInput"
+          (input)="onInputChange()"
+          type="text"
+          class="form-control"
+          placeholder="search..."
+          aria-label="Search input"
+        />
+        <i
+          class="input-group-text bi bi-search bg-white"
+          (click)="onSearchClick()"
+          style="cursor: pointer;"
+        ></i>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-1 position-absolute w-100" *ngIf="isOptionsVisible" style="z-index: 1">
+    <div class="col-10 text-start">
+      <ul class="list-group">
+        <ng-container *ngFor="let productBrand of productBrands$ | async">
+          <li
+            *ngIf="
+              productBrand
+                .toLowerCase()
+                .startsWith(productBrandInput.toLowerCase())
+            "
+            (click)="onOptionSelect(productBrand)"
+            class="list-group-item suggestion"
+            style="cursor: pointer"
+          >
+            {{ productBrand }}
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+  </div>
+</div>

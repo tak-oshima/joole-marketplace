@@ -1,8 +1,7 @@
 package com.itlize.joolemarketplace.controller;
 
-import com.itlize.joolemarketplace.dto.AuthenticationRequest;
-import com.itlize.joolemarketplace.dto.AuthenticationResponse;
-import com.itlize.joolemarketplace.dto.RegisterRequest;
+import com.itlize.joolemarketplace.dto.AuthRequest;
+import com.itlize.joolemarketplace.dto.AuthResponse;
 import com.itlize.joolemarketplace.model.User;
 import com.itlize.joolemarketplace.service.UserService;
 
@@ -23,9 +22,9 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<?> register(@RequestBody AuthRequest request) {
         try {
-            AuthenticationResponse response = userService.registerUser(request);
+            AuthResponse response = userService.registerUser(request);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         }
         catch (RuntimeException e) {
@@ -37,9 +36,9 @@ public class UserController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequest request) {
+    public ResponseEntity<?> authenticate(@RequestBody AuthRequest request) {
         try {
-            AuthenticationResponse response = userService.authenticateUser(request);
+            AuthResponse response = userService.authenticateUser(request);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         }
         catch (RuntimeException e) {
@@ -51,15 +50,15 @@ public class UserController {
     }
 
     @GetMapping("/{userName}")
-    public ResponseEntity<?> getUserByUserName(@PathVariable String userName) {
-        Optional<User> foundUser = userService.getUserByUserName(userName);
+    public ResponseEntity<?> getUserByUserName(@PathVariable String username) {
+        Optional<User> foundUser = userService.getUserByUserName(username);
         if (foundUser.isPresent()) {
             return new ResponseEntity<>(foundUser.get() , HttpStatus.OK);
         }
         else {
             Map<String, String> responseBody = new HashMap<>();
             responseBody.put("error", "User not found");
-            responseBody.put("details", String.format("User with user_name \"%s\" could not be found", userName));
+            responseBody.put("details", String.format("User with user_name \"%s\" could not be found", username));
             return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
         }
     }
@@ -90,10 +89,10 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/{userName}")
-    public ResponseEntity<?> deleteUserBy(@PathVariable String userName) {
+    @DeleteMapping("/{username}")
+    public ResponseEntity<?> deleteUserBy(@PathVariable String username) {
         try {
-            userService.deleteUser(userName);
+            userService.deleteUser(username);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         catch (RuntimeException e){

@@ -1,6 +1,6 @@
 package com.itlize.joolemarketplace.service.impl;
 
-import com.itlize.joolemarketplace.dto.ProductSearchCriteria;
+import com.itlize.joolemarketplace.dto.ProductSearchRequest;
 import com.itlize.joolemarketplace.exception.ProductNotFoundException;
 import com.itlize.joolemarketplace.model.Description;
 import com.itlize.joolemarketplace.model.Product;
@@ -68,24 +68,24 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getProductsBySearchCriteria(ProductSearchCriteria productSearchCriteria) {
-        Specification<ProductType> productTypeSpec = ProductTypeSpecs.matchesSearchCriteria(productSearchCriteria.getProductTypeSearchCriteria());
-        Set<Product> foundProductsByType = (productSearchCriteria.getProductTypeSearchCriteria() == null)
+    public List<Product> getProductsBySearchCriteria(ProductSearchRequest productSearchRequest) {
+        Specification<ProductType> productTypeSpec = ProductTypeSpecs.matchesSearchCriteria(productSearchRequest.getProductTypeSearchRequest());
+        Set<Product> foundProductsByType = (productSearchRequest.getProductTypeSearchRequest() == null)
                 ? new HashSet<>(productRepository.findAll())
                 : productTypeRepository.findAll(productTypeSpec)
                         .stream()
                         .map(ProductType::getProduct)
                         .collect(Collectors.toSet());
 
-        Specification<TechnicalDetail> technicalDetailSpec = TechnicalDetailSpecs.matchesSearchCriteria(productSearchCriteria.getTechnicalDetailSearchCriteria());
-        Set<Product> foundProductsByTechnicalDetail = (productSearchCriteria.getTechnicalDetailSearchCriteria() == null)
+        Specification<TechnicalDetail> technicalDetailSpec = TechnicalDetailSpecs.matchesSearchCriteria(productSearchRequest.getTechnicalDetailSearchRequest());
+        Set<Product> foundProductsByTechnicalDetail = (productSearchRequest.getTechnicalDetailSearchRequest() == null)
                 ? new HashSet<>(productRepository.findAll())
                 : technicalDetailRepository.findAll(technicalDetailSpec)
                 .stream()
                 .map(TechnicalDetail::getProduct)
                 .collect(Collectors.toSet());
 
-        Set<Product> foundProductsByBrand = new HashSet<>(productRepository.findAllByProductBrand(productSearchCriteria.getProductBrand()));
+        Set<Product> foundProductsByBrand = new HashSet<>(productRepository.findAllByProductBrand(productSearchRequest.getProductBrand()));
 
         return foundProductsByType.stream()
                 .filter(foundProductsByTechnicalDetail::contains)
