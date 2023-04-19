@@ -1,6 +1,6 @@
 package com.itlize.joolemarketplace.service;
 
-import com.itlize.joolemarketplace.dto.ProductSearchCriteria;
+import com.itlize.joolemarketplace.dto.ProductSearchRequest;
 import com.itlize.joolemarketplace.model.*;
 
 import java.util.List;
@@ -14,7 +14,7 @@ public interface ProductService {
     Optional<Product> getProductByDescription(Description description);
     List<Product> getAllProducts();
     List<Product> getProductsByBrand(String brand);
-    List<Product> getProductsBySearchCriteria(ProductSearchCriteria productSearchCriteria);
+    List<Product> getProductsBySearchCriteria(ProductSearchRequest productSearchRequest);
     Product updateProduct(Product product);
     void deleteProduct(Integer productId);
 }

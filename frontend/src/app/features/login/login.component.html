@@ -1,0 +1,42 @@
+<app-logo-large></app-logo-large>
+<div class="container" style="max-width: 800px;">
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <form [formGroup]="loginForm">
+        <div class="input-group mb-3">
+          <input
+            type="username"
+            class="form-control"
+            id="username"
+            formControlName="username"
+            placeholder="Username"
+          />
+          <i class="bi bi-person-fill input-group-text bg-white"></i>
+        </div>
+        <div class="input-group mb-3">
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            formControlName="password"
+            placeholder="Password"
+          />
+          <i class="bi bi-lock-fill input-group-text bg-white"></i>
+        </div>
+        <p *ngIf="loginError" class="alert alert-danger">
+          Invalid username or password.
+        </p>
+        <div class="text-end">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            (click)="onSubmit()"
+            [disabled]="!loginForm.valid"
+          >
+            Log In
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,8 +1,7 @@
 package com.itlize.joolemarketplace.service.impl;
 
-import com.itlize.joolemarketplace.dto.AuthenticationRequest;
-import com.itlize.joolemarketplace.dto.AuthenticationResponse;
-import com.itlize.joolemarketplace.dto.RegisterRequest;
+import com.itlize.joolemarketplace.dto.AuthRequest;
+import com.itlize.joolemarketplace.dto.AuthResponse;
 import com.itlize.joolemarketplace.exception.UserAlreadyExistsException;
 import com.itlize.joolemarketplace.exception.UserNotFoundException;
 import com.itlize.joolemarketplace.model.User;
@@ -30,25 +29,26 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public AuthenticationResponse registerUser(RegisterRequest request) {
+    public AuthResponse registerUser(AuthRequest request) {
         if (userRepository.findById(request.getUsername()).isPresent()) {
             throw new UserAlreadyExistsException(request.getUsername());
         }
         User user = User.builder()
                 .username(request.getUsername())
-                .userType(request.getUserType())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .userType(request.getUserType())
                 .role(Role.USER)
                 .build();
         UserDetails userDetails = userRepository.save(user);
 
-        return AuthenticationResponse.builder()
+        return AuthResponse.builder()
+                .username(userDetails.getUsername())
                 .token(jwtUtil.generateToken(userDetails))
                 .build();
     }
 
     @Override
-    public AuthenticationResponse authenticateUser(AuthenticationRequest request) {
+    public AuthResponse authenticateUser(AuthRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
@@ -57,7 +57,8 @@ public class UserServiceImpl implements UserService {
         );
         UserDetails userDetails = userRepository.findById(request.getUsername()).get();
 
-        return AuthenticationResponse.builder()
+        return AuthResponse.builder()
+                .username(userDetails.getUsername())
                 .token(jwtUtil.generateToken(userDetails))
                 .build();
     }

@@ -1,0 +1,43 @@
+.search-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.projectId-select {
+  max-width: 20%;
+}
+
+.search-input {
+  padding-right: calc(1.5em + 0.75rem);
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+
+  &:hover {
+    color: #007bff;
+  }
+}
+
+.autocomplete-options {
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.25rem;
+  z-index: 1;
+}
+
+.option-item {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.075);
+  }
+}

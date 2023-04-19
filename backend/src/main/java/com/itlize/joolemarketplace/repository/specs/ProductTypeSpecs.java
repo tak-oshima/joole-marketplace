@@ -1,6 +1,6 @@
 package com.itlize.joolemarketplace.repository.specs;
 
-import com.itlize.joolemarketplace.dto.ProductTypeSearchCriteria;
+import com.itlize.joolemarketplace.dto.ProductTypeSearchRequest;
 import com.itlize.joolemarketplace.model.ProductType;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductTypeSpecs {
-    public static Specification<ProductType> matchesSearchCriteria(ProductTypeSearchCriteria searchCriteria) {
+    public static Specification<ProductType> matchesSearchCriteria(ProductTypeSearchRequest searchCriteria) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 

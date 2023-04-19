@@ -1,5 +1,6 @@
 package com.itlize.joolemarketplace.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.itlize.joolemarketplace.model.enums.Role;
 import jakarta.persistence.*;
 
@@ -32,6 +33,7 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @JsonIgnore
     @OneToMany(mappedBy="user", cascade= CascadeType.ALL, fetch=FetchType.EAGER)
     private List<Project> projects = new ArrayList<>();
 

@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-xl-3 d-flex justify-content-center px-0">
+            <input
+              type="number"
+              [min]="lowerBound"
+              [max]="higherBound"
+              class="form-control"
+              [(ngModel)]="minValue"
+              (change)="onMinValueChange($event)"
+            />
+        </div>
+        <div class="col-xl-6 px-2 mx-0 pe-4">
+            <mat-slider [min]="lowerBound" [max]="higherBound" class="w-100">
+              <input
+                matSliderStartThumb
+                [(ngModel)]="minValue"
+                (change)="onMinValueChange($event)"
+              />
+              <input
+                matSliderEndThumb
+                [(ngModel)]="maxValue"
+                (change)="onMaxValueChange($event)"
+              />
+            </mat-slider>
+        </div>
+        <div class="col-xl-3 d-flex justify-content-center px-0">
+            <input
+              type="number"
+              [min]="lowerBound"
+              [max]="higherBound"
+              class="form-control"
+              [(ngModel)]="maxValue"
+              (change)="onMaxValueChange($event)"
+            />
+        </div>
+    </div>
+</div>

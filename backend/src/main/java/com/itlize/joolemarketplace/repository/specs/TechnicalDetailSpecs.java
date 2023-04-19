@@ -1,6 +1,6 @@
 package com.itlize.joolemarketplace.repository.specs;
 
-import com.itlize.joolemarketplace.dto.TechnicalDetailSearchCriteria;
+import com.itlize.joolemarketplace.dto.TechnicalDetailSearchRequest;
 import com.itlize.joolemarketplace.model.TechnicalDetail;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TechnicalDetailSpecs {
-    public static Specification<TechnicalDetail> matchesSearchCriteria(TechnicalDetailSearchCriteria searchCriteria) {
+    public static Specification<TechnicalDetail> matchesSearchCriteria(TechnicalDetailSearchRequest searchCriteria) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 

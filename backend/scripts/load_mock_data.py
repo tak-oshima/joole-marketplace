@@ -2,6 +2,7 @@ import csv
 import os
 import mysql.connector
 import random
+import bcrypt
 
 # Credentials
 connection = mysql.connector.connect(
@@ -15,7 +16,7 @@ cursor = connection.cursor()
 
 ###### Load data from CSV files into the corresponding tables ######
 tables = [
-    "user",
+    # "user",
     "product",
     "product_type",
     "technical_detail",
@@ -23,7 +24,7 @@ tables = [
 ]
 
 for table in tables:
-    filename = f"../src/main/resources/db/data/{table}_mock_data.csv"
+    filename = f"./backend/src/main/resources/data/{table}_mock_data.csv"
     
     # Check if file exists
     if not os.path.isfile(filename):
@@ -44,47 +45,48 @@ for table in tables:
     connection.commit()
     print(f"Data from '{filename}' has been loaded into the '{table}' table.")
 
+# Update product_type_id, technical_detail_id, and description_id to match product_id in the product table
+update_query = """
+    UPDATE product p
+    JOIN product_type pt ON p.product_id = pt.product_type_id
+    JOIN technical_detail td ON p.product_id = td.technical_detail_id
+    JOIN description d ON p.product_id = d.description_id
+    SET p.product_type_id = pt.product_type_id,
+        p.technical_detail_id = td.technical_detail_id,
+        p.description_id = d.description_id
+"""
 
-###### Generate project entries based on users table ######
-select_query = "SELECT user_name FROM user WHERE user_type = 'customer'"
-cursor.execute(select_query)
+cursor.execute(update_query)
+connection.commit()
+print("Updated product_type_id, technical_detail_id, and description_id to match product_id in the product table.")
 
-customer_user_names = [row[0] for row in cursor.fetchall()]
-for user_name in customer_user_names:
-    num_projects = random.randint(1, 2)
-    insert_query = "INSERT INTO project (user_name) VALUES (%s)"
+# Create 2 new projects with username "test", project_name "Project 1" and username "test", "Project 2"
+username = "test"
 
-    for _ in range(num_projects):
-        row = (user_name,)
-        cursor.execute(insert_query, row)
+project_query = """
+    INSERT INTO project (username, project_name)
+    VALUES (%s, %s)
+"""
+project_names = ["Project 1", "Project 2"]
+for project_name in project_names:
+    cursor.execute(project_query, (username, project_name))
+connection.commit()
+print("Created 2 new projects with username 'test', project_name 'Project 1' and username 'test', 'Project 2'.")
 
-    # Commit changes
+# Insert 700 rows into the project_product table where project_id is 1 and product_id is a distinct random number between 1 and 1000
+project_product_query = """
+    INSERT INTO project_product (project_id, product_id)
+    VALUES (%s, %s)
+"""
+project_ids = [1, 2]
+project_product_counts = [700, 100]
+
+for project_id, count in zip(project_ids, project_product_counts):
+    product_ids = random.sample(range(1, 1001), count)
+    for product_id in product_ids:
+        cursor.execute(project_product_query, (project_id, product_id))
     connection.commit()
-    print(f"Inserted {num_projects} project(s) for user '{user_name}' into 'project' table.")
-
-
-###### Generate project_product entries based on project table and product table ######
-select_query = "SELECT project_id FROM project"
-cursor.execute(select_query)
-project_ids = [row[0] for row in cursor.fetchall()]
-
-select_query = "SELECT product_id FROM product"
-cursor.execute(select_query)
-product_ids = [row[0] for row in cursor.fetchall()]
-
-insert_query = "INSERT INTO project_product (project_id, product_id) VALUES (%s, %s)"
-num_products_choices = [20, 30, 40]
-
-for project_id in project_ids:
-    num_products = random.choice(num_products_choices)
-
-    for product_id in random.sample(product_ids, num_products):
-        row = (project_id, product_id)
-        cursor.execute(insert_query, row)
-
-    # Commit changes
-    connection.commit()
-    print(f"Inserted {num_products} products for project '{project_id}' into 'project_product' table.")
+    print(f"Inserted {count} rows into the project_product table where project_id is {project_id} and product_id is a distinct random number between 1 and 1000.")
 
 
 # Close the connection

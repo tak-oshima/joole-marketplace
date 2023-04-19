@@ -1,6 +1,6 @@
 package com.itlize.joolemarketplace.controller;
 
-import com.itlize.joolemarketplace.dto.ProductSearchCriteria;
+import com.itlize.joolemarketplace.dto.ProductSearchRequest;
 import com.itlize.joolemarketplace.model.*;
 import com.itlize.joolemarketplace.service.*;
 
@@ -126,9 +126,9 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<?> getProductsBySearchCriteria(@RequestBody ProductSearchCriteria productSearchCriteria) {
-        List<Product> foundProducts = productService.getProductsBySearchCriteria(productSearchCriteria);
+    @PostMapping("/search")
+    public ResponseEntity<?> getProductsBySearchCriteria(@RequestBody ProductSearchRequest productSearchRequest) {
+        List<Product> foundProducts = productService.getProductsBySearchCriteria(productSearchRequest);
         return new ResponseEntity<>(foundProducts, HttpStatus.OK);
     }
 

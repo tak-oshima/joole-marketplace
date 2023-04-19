@@ -1,0 +1,51 @@
+<app-logo-large></app-logo-large>
+<div class="container" style="max-width: 800px;">
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <form [formGroup]="signupForm">
+        <div class="input-group mb-3">
+          <input
+            type="username"
+            class="form-control"
+            id="username"
+            formControlName="username"
+            placeholder="Username"
+          />
+          <i class="bi bi-person-fill input-group-text bg-white"></i>
+        </div>
+        <div class="input-group mb-3">
+          <select class="form-control" id="userType" formControlName="userType">
+            <option value="" disabled selected>Select User Type</option>
+            <option value="customer">Customer</option>
+            <option value="seller">Seller</option>
+          </select>
+          <i class="bi bi-caret-down-fill input-group-text bg-white"></i>
+        </div>
+        <div class="input-group mb-3">
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            formControlName="password"
+            placeholder="Password"
+          />
+          <i class="bi bi-lock-fill input-group-text bg-white"></i>
+        </div>
+        <p *ngIf="signupError" class="alert alert-danger">
+          Username already exists.
+        </p>
+        <div class="text-end">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            (click)="onSubmit()"
+            [disabled]="!signupForm.valid"
+          >
+            Sign Up
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>

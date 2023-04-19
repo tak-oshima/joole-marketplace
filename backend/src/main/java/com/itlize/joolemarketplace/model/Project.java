@@ -1,5 +1,6 @@
 package com.itlize.joolemarketplace.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,11 +18,14 @@ public class Project {
     private Integer projectId;
 
     @ManyToOne
-    @JoinColumn(name="user_name", nullable = false)
+    @JoinColumn(name="username", nullable = false)
     private User user;
 
+    @JsonIgnore
     @OneToMany(mappedBy="project", cascade= CascadeType.ALL, fetch=FetchType.LAZY)
     private List<ProjectProduct> projectProducts = new ArrayList<>();
+
+    private String projectName;
 
     public Project(User user) {
         this.user = user;
